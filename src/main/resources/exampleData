@@ -1,0 +1,26 @@
+#### Full list Json
+[
+  {
+    "countryCode": "string",
+    "name": "string",
+    "qServiceTypes": [
+      "string"
+    ],
+    "services": [
+      {
+        "countryCode": "string",
+        "currentStatus": "string",
+        "qServiceTypes": [
+          "string"
+        ],
+        "serviceId": 0,
+        "serviceName": "string",
+        "tob": "string",
+        "tspId": 0,
+        "type": "string"
+      }
+    ],
+    "trustmark": "string",
+    "tspId": 0
+  }
+]
