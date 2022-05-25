@@ -76,8 +76,7 @@ public class MainWindowController {
 
     @FXML
     protected void onSearchStart() throws IOException {
-    	if((selectedTypesList.getItems().size() == 0) && (selectedCountriesList.getItems().size() == 0 ))
-    	{
+    	if((selectedTypesList.getItems().size() == 0) && (selectedCountriesList.getItems().size() == 0 )) {
     		idResult.getItems().clear();
     		idResult.getItems().add("ERROR: PARAMETERS NOT FOUND" );
     		return;
@@ -91,8 +90,6 @@ public class MainWindowController {
     	
     	else
     		searchHandler(selectedCountriesList,selectedTypesList);
-    	
-    	return;
     }
     
     private void searchHandler(ListView country, ListView type) throws IOException
@@ -111,24 +108,20 @@ public class MainWindowController {
 			String rawJson = connectionFactory.getServicesListJson(countries, types);
 		String[] services = JsonProcess.serviceExtractorJson(rawJson);
 		idResult.getItems().clear();
-		for(String i:services)
-		{
+		for(String i:services) {
 			System.out.println(i+"-");
 			idResult.getItems().add(i);
 		}
     }
     
-    private String[] remake (String[] s)
-    {
+    private String[] remake (String[] s) {
     	String[] tmp = new String[s.length];
-    	for(int i=0;i<s.length;i++)
-    	{
+    	for(int i=0;i<s.length;i++) {
     		String str = s[i];
     		String str1 = Character.toString(str.charAt(0)) + Character.toString(str.charAt(1));
     		System.out.println(str1);
     		tmp[i] = str1;
-    		
     	}
     	return tmp;
     }
-   }
+}
