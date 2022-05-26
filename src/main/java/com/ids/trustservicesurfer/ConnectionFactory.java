@@ -1,7 +1,6 @@
 package com.ids.trustservicesurfer;
 
 import org.json.JSONObject;
-
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
