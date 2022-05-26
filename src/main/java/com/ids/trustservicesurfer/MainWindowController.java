@@ -22,13 +22,11 @@ public class MainWindowController {
     private ListView selectedCountriesList;
     @FXML
     private ListView selectedTypesList;
-
     private Country[] countries;
     private ServiceType[] serviceTypes;
     @FXML
     protected void onLoadButtonClick() {
         String raw_json;
-
         // Contries Load
         try {
             raw_json = connectionFactory.getCountriesListJson();
