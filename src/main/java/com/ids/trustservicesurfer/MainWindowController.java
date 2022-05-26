@@ -26,23 +26,31 @@ public class MainWindowController {
     private Country[] countries;
     private ServiceType[] serviceTypes;
     @FXML
-    protected void onLoadButtonClick() throws IOException {
+    protected void onLoadButtonClick() {
         String raw_json;
 
         // Contries Load
-        raw_json = connectionFactory.getCountriesListJson();
-        countries =  JsonProcess.countryExtractorJson(raw_json);
-        countriesList.getItems().clear();
-        for (Country c : countries) {
-            countriesList.getItems().add(c);
+        try {
+            raw_json = connectionFactory.getCountriesListJson();
+            countries = JsonProcess.countryExtractorJson(raw_json);
+            countriesList.getItems().clear();
+            for (Country c : countries) {
+                countriesList.getItems().add(c);
+            }
+        } catch(IOException e) {
+            errorLauncher(e);
         }
 
         // Types Load
-        raw_json = connectionFactory.getCompleteServicesListJson();
-        serviceTypes =  JsonProcess.serviceTypesExtractorJson(raw_json);
-        typesList.getItems().clear();
-        for (ServiceType c : serviceTypes)
-            typesList.getItems().add(c);
+        try {
+            raw_json = connectionFactory.getCompleteServicesListJson();
+            serviceTypes =  JsonProcess.serviceTypesExtractorJson(raw_json);
+            typesList.getItems().clear();
+            for (ServiceType c : serviceTypes)
+                typesList.getItems().add(c);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @FXML
@@ -98,7 +106,7 @@ public class MainWindowController {
     	for(int i = 0; i < _types.getItems().size(); i++)
 			types[i] = _types.getItems().get(i).toString();
 
-    	countries = extract_code(countries);
+    	countries = extractCode(countries);
 
         try {
             String raw_json = connectionFactory.getServicesListJson(countries, types);
@@ -113,7 +121,12 @@ public class MainWindowController {
         }
     }
 
-    private static String[] extract_code(String[] _countries) {
+    private void errorLauncher(Exception e) {
+        //TODO
+
+    }
+
+    private static String[] extractCode(String[] _countries) {
         String code_extractor_pattern = "^[A-Z]{2}";
         Pattern code_extractor = Pattern.compile(code_extractor_pattern);
 

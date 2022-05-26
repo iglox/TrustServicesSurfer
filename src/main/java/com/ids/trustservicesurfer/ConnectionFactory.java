@@ -4,14 +4,13 @@ import org.json.JSONObject;
 
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 public class ConnectionFactory {
     private final String type_url = "https://esignature.ec.europa.eu/efda/tl-browser/api/v1/search/find_by_type";
     private final String service_url = "https://esignature.ec.europa.eu/efda/tl-browser/api/v1/search/tsp_list";
-    private final String contries_list_url = "https://esignature.ec.europa.eu/efda/tl-browser/api/v1/search/countries_list";
+    private final String countries_list_url = "https://esignature.ec.europa.eu/efda/tl-browser/api/v1/search/countries_list";
 
     private String buildSearchCriteriaString(String[] _countries, String[] _types) {
         JSONObject tmp_json_obj = new JSONObject();
@@ -22,7 +21,7 @@ public class ConnectionFactory {
     }
 
     public String getCountriesListJson() throws IOException {
-        URL url = new URL(contries_list_url);
+        URL url = new URL(countries_list_url);
         HttpURLConnection con = (HttpURLConnection)url.openConnection();
         con.setRequestMethod("GET");
         con.setRequestProperty("Content-Type", "application/json");
@@ -41,7 +40,6 @@ public class ConnectionFactory {
 
     }
 
-    // TODO
     public String getCompleteServicesListJson() throws IOException {
         URL url = new URL("https://esignature.ec.europa.eu/efda/tl-browser/api/v1/search/tsp_list");
         HttpURLConnection con = (HttpURLConnection)url.openConnection();
@@ -61,8 +59,7 @@ public class ConnectionFactory {
         }
     }
 
-    // TODO
-    public String getServicesListJson(String[] countries, String[] types) throws IOException {
+    public String getServicesListJson(String[] _countries, String[] _types) throws IOException {
         // TODO check input
     	
         URL url = new URL("https://esignature.ec.europa.eu/efda/tl-browser/api/v1/search/find_by_type");
@@ -73,7 +70,7 @@ public class ConnectionFactory {
         con.setRequestProperty("Accept", "application/json");
         con.setDoOutput(true);
 
-        String json_input_string = buildSearchCriteriaString(countries, types);
+        String json_input_string = buildSearchCriteriaString(_countries, _types);
 
         try(OutputStream os = con.getOutputStream()){
             byte[] input = json_input_string.getBytes(StandardCharsets.UTF_8);
