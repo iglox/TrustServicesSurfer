@@ -79,9 +79,9 @@ public class MainWindowController {
     @FXML
     protected void onSearchStart() throws IOException {
         idResult.getItems().clear();
-    	if((selectedTypesList.getItems().size() == 0) && (selectedCountriesList.getItems().size() == 0 )) {
-            searchHandler(countries, countries);
-        } else if(selectedTypesList.getItems().size() == 0)
+    	if((selectedTypesList.getItems().size() == 0) && (selectedCountriesList.getItems().size() == 0 ))
+            searchHandler(countriesList, typesList);
+        else if(selectedTypesList.getItems().size() == 0)
     		searchHandler(selectedCountriesList,typesList);
         else if(selectedCountriesList.getItems().size() == 0 )
     		searchHandler(countriesList, selectedTypesList);
@@ -113,13 +113,13 @@ public class MainWindowController {
         }
     }
 
-    private String[] extract_code(String[] _countries) {
+    private static String[] extract_code(String[] _countries) {
         String code_extractor_pattern = "^[A-Z]{2}";
         Pattern code_extractor = Pattern.compile(code_extractor_pattern);
 
         for (int i = 0; i <  _countries.length; i++) {
             Matcher code_matcher = code_extractor.matcher(_countries[i]);
-            if (code_matcher.find() && code_matcher.groupCount() > 0)
+            if (code_matcher.find() && code_matcher.groupCount() >= 0)
                 _countries[i] =  code_matcher.group(0).toString();
             else
                 throw new RuntimeException("[!] Something went wrong: no pattern found");
