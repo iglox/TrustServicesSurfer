@@ -4,6 +4,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MainWindowController {
     private ConnectionFactory connectionFactory = new ConnectionFactory();
@@ -76,52 +78,52 @@ public class MainWindowController {
 
     @FXML
     protected void onSearchStart() throws IOException {
+        idResult.getItems().clear();
     	if((selectedTypesList.getItems().size() == 0) && (selectedCountriesList.getItems().size() == 0 )) {
-    		idResult.getItems().clear();
-    		idResult.getItems().add("ERROR: PARAMETERS NOT FOUND" );
-    		return;
-    	}
-    	
-    	else if(selectedTypesList.getItems().size() == 0)
+            searchHandler(countries, countries);
+        } else if(selectedTypesList.getItems().size() == 0)
     		searchHandler(selectedCountriesList,typesList);
-    	
-    	else if(selectedCountriesList.getItems().size() == 0 )
-    		searchHandler(countriesList,selectedTypesList);	
-    	
-    	else
-    		searchHandler(selectedCountriesList,selectedTypesList);
+        else if(selectedCountriesList.getItems().size() == 0 )
+    		searchHandler(countriesList, selectedTypesList);
+        else
+    		searchHandler(selectedCountriesList, selectedTypesList);
     }
-    
-    private void searchHandler(ListView country, ListView type) throws IOException
-    {
-    	int n1 =country.getItems().size(); 
-    	int n2 =type.getItems().size();
-    	String[] countries = new String[n1];
-    	String[] types = new String[n2];
-    	for(int i=0; i<country.getItems().size();i++)
-			countries[i] =  country.getItems().get(i).toString();
-    	for(int i=0; i<type.getItems().size();i++)
-			types[i] = type.getItems().get(i).toString();
-		
-    	countries = remake(countries);
-    	
-			String rawJson = connectionFactory.getServicesListJson(countries, types);
-		String[] services = JsonProcess.serviceExtractorJson(rawJson);
-		idResult.getItems().clear();
-		for(String i:services) {
-			System.out.println(i+"-");
-			idResult.getItems().add(i);
-		}
+
+    private void searchHandler(ListView _countries, ListView _types) {
+    	String[] countries = new String[_countries.getItems().size()],
+                 types = new String[_types.getItems().size()];
+
+    	for(int i = 0; i < _countries.getItems().size(); i++)
+			countries[i] =  _countries.getItems().get(i).toString();
+    	for(int i = 0; i < _types.getItems().size(); i++)
+			types[i] = _types.getItems().get(i).toString();
+
+    	countries = extract_code(countries);
+
+        try {
+            String raw_json = connectionFactory.getServicesListJson(countries, types);
+            String[] services = JsonProcess.serviceExtractorJson(raw_json);
+            idResult.getItems().clear();
+            for(String i:services) {
+                System.out.println(i+"-");
+                idResult.getItems().add(i);
+            }
+        } catch(IOException e) {
+            System.out.println("[!] Error: " + e.toString());
+        }
     }
-    
-    private String[] remake (String[] s) {
-    	String[] tmp = new String[s.length];
-    	for(int i=0;i<s.length;i++) {
-    		String str = s[i];
-    		String str1 = Character.toString(str.charAt(0)) + Character.toString(str.charAt(1));
-    		System.out.println(str1);
-    		tmp[i] = str1;
-    	}
-    	return tmp;
+
+    private String[] extract_code(String[] _countries) {
+        String code_extractor_pattern = "^[A-Z]{2}";
+        Pattern code_extractor = Pattern.compile(code_extractor_pattern);
+
+        for (int i = 0; i <  _countries.length; i++) {
+            Matcher code_matcher = code_extractor.matcher(_countries[i]);
+            if (code_matcher.find() && code_matcher.groupCount() > 0)
+                _countries[i] =  code_matcher.group(0).toString();
+            else
+                throw new RuntimeException("[!] Something went wrong: no pattern found");
+        }
+        return _countries;
     }
 }
