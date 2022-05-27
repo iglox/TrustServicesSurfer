@@ -73,6 +73,7 @@ public class MainWindowController {
         System.out.println("[+] New filter: " + typesList.getSelectionModel().getSelectedItem());
         selectedTypesList.getItems().add(typesList.getSelectionModel().getSelectedItem());
     }
+    //TOCHECK
     @FXML
     protected void onServiceProviderFilterAdd() {
         if (serviceProvidersList.getSelectionModel().getSelectedItem() == null || selectedServiceProvidersList.getItems().contains(typesList.getSelectionModel().getSelectedItem()))
@@ -80,6 +81,7 @@ public class MainWindowController {
         System.out.println("[+] New filter: " + serviceProvidersList.getSelectionModel().getSelectedItem());
         selectedServiceProvidersList.getItems().add(serviceProvidersList.getSelectionModel().getSelectedItem());
     }
+    //TOCHECK
     @FXML
     protected void onServiceTypeFilterAdd() {
         if (serviceStatesList.getSelectionModel().getSelectedItem() == null || selectedServiceStatesList.getItems().contains(typesList.getSelectionModel().getSelectedItem()))
@@ -104,6 +106,7 @@ public class MainWindowController {
         System.out.println("[-] Remove filter: " + selectedTypesList.getSelectionModel().getSelectedItem());
         selectedTypesList.getItems().remove(selectedTypesList.getSelectionModel().getSelectedIndex());
     }
+    //TOCHECK
     @FXML
     protected void onServiceProviderFilterRemove() {
         if (selectedServiceProvidersList.getSelectionModel().getSelectedItem() == null)
@@ -111,6 +114,7 @@ public class MainWindowController {
         System.out.println("[-] Remove filter: " + selectedServiceProvidersList.getSelectionModel().getSelectedItem());
         selectedServiceProvidersList.getItems().remove(selectedServiceProvidersList.getSelectionModel().getSelectedIndex());
     }
+    //TOCHECK
     @FXML
     protected void onServiceTypeFilterRemove() {
         if (selectedServiceStatesList.getSelectionModel().getSelectedItem() == null)

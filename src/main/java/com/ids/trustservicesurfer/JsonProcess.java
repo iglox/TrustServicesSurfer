@@ -11,29 +11,39 @@ public class JsonProcess {
     protected JsonProcess(){}
 
     public static Country[] countryExtractorJson(String raw_json) {
+        // Check input params
         if (raw_json == null || raw_json.length() == 0)
             throw new IllegalArgumentException("Json is null or empty");
 
+        // Convert raw json => array of json obj
         JSONArray j_array = new JSONArray(raw_json);
         System.out.println("[!] : Loading countries");
+        // Prepare output destination array
         Country[] countries = new Country[j_array.length()];
+        // For each obj in array: create Country obj and copy it in it
         for (int i = 0; i < j_array.length(); i++) {
             System.out.println("[+] - Loading country " + i + " of " + (j_array.length() - 1));
             JSONObject tmp_obj = j_array.getJSONObject(i);
             countries[i] =  new Country(tmp_obj.getString("countryName"),
                     tmp_obj.getString("countryCode"));
         }
+        // Sort it
         Arrays.sort(countries);
         return countries;
     }
 
     public static ServiceType[] serviceTypesExtractorJson(String raw_json) {
+        // Check input params
         if (raw_json == null || raw_json.length() == 0)
             throw new IllegalArgumentException("Json is null or empty");
 
+        // Convert raw json => array of json obj
         JSONArray j_array = new JSONArray(raw_json);
+        // Prepare output tmp destination list
         ArrayList<String> types = new ArrayList<String>();
         System.out.println("[!] : Loading types");
+        // For each obj in array: load obj and copy its services` name in a list (which works
+        // like a set, unique items)
         for (int i = 0; i < j_array.length(); i++) {
             System.out.println("[+] - Loading type " + i + " of " + (j_array.length() - 1));
             JSONObject tmp_obj = j_array.getJSONObject(i);
@@ -44,16 +54,17 @@ public class JsonProcess {
                     types.add(service_type);
             }
         }
-
+        // Prepare real destination array
         ServiceType[] serviceTypes =  new ServiceType[types.size()];
-
+        // Sort it and copy its element in the array
         Collections.sort(types);
         for(int i = 0; i < types.size(); i++)
             serviceTypes[i] = new ServiceType(types.get(i));
 
         return serviceTypes;
     }
-    
+
+    //TODO: add comments
     public static String[] serviceExtractorJson ( String raw_json) {
     	if (raw_json == null || raw_json.length() == 0)
             throw new IllegalArgumentException("Json is null or empty");
