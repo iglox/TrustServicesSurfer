@@ -20,7 +20,7 @@ public class MainWindowController {
     private ListView serviceStatesList;
     
     @FXML
-    private ListView idResult;
+    private ListView resultsList;
 
     @FXML
     private ListView selectedCountriesList;
@@ -32,6 +32,7 @@ public class MainWindowController {
     private ListView selectedServiceStatesList;
     private Country[] countries;
     private ServiceType[] serviceTypes;
+    private String[] serviceProviders;
     @FXML
     protected void onLoadButtonClick() {
         String raw_json;
@@ -55,7 +56,18 @@ public class MainWindowController {
             for (ServiceType c : serviceTypes)
                 typesList.getItems().add(c);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            errorLauncher(e);
+        }
+        // TODO: try to reuse prev downloaded raw_json
+        // Providers load
+        try {
+            raw_json = connectionFactory.getCompleteServicesListJson();
+            serviceProviders =  JsonProcess.serviceProvidersExtractorJson(raw_json);
+            serviceProvidersList.getItems().clear();
+            for (String p : serviceProviders)
+                serviceProvidersList.getItems().add(p);
+        } catch (IOException e) {
+            errorLauncher(e);
         }
     }
 
@@ -125,7 +137,7 @@ public class MainWindowController {
 
     @FXML
     protected void onSearchStart() throws IOException {
-        idResult.getItems().clear();
+        resultsList.getItems().clear();
     	if((selectedTypesList.getItems().size() == 0) && (selectedCountriesList.getItems().size() == 0 ))
             searchHandler(countriesList, typesList);
         else if(selectedTypesList.getItems().size() == 0)
@@ -150,10 +162,10 @@ public class MainWindowController {
         try {
             String raw_json = connectionFactory.getServicesListJson(countries, types);
             String[] services = JsonProcess.serviceExtractorJson(raw_json);
-            idResult.getItems().clear();
+            resultsList.getItems().clear();
             for(String i:services) {
                 System.out.println(i+"-");
-                idResult.getItems().add(i);
+                resultsList.getItems().add(i);
             }
         } catch(IOException e) {
             System.out.println("[!] Error: " + e.toString());

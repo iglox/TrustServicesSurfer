@@ -63,9 +63,28 @@ public class JsonProcess {
 
         return serviceTypes;
     }
+    public static String[] serviceProvidersExtractorJson(String raw_json) {
+        // Check input params
+        if (raw_json == null || raw_json.length() == 0)
+            throw new IllegalArgumentException("Json is null or empty");
+
+        // Convert raw json => array of json obj
+        JSONArray j_array = new JSONArray(raw_json);
+        // Prepare output tmp destination list
+        String[] providers = new String[j_array.length()];
+        System.out.println("[!] : Loading service providers");
+        // For each obj in array: load obj, extract its name and save it in the destination array
+        for (int i = 0; i < j_array.length(); i++) {
+            System.out.println("[+] - Loading provider " + i + " of " + (j_array.length() - 1));
+            providers[i] = j_array.getJSONObject(i).get("name").toString();
+        }
+        // Sort it
+        Arrays.sort(providers);
+        return providers;
+    }
 
     //TODO: add comments
-    public static String[] serviceExtractorJson ( String raw_json) {
+    public static String[] serviceExtractorJson (String raw_json) {
     	if (raw_json == null || raw_json.length() == 0)
             throw new IllegalArgumentException("Json is null or empty");
 
@@ -75,6 +94,7 @@ public class JsonProcess {
         for (int i = 0; i < j_array.length(); i++) {
             System.out.println("[+] - Loading service " + i + " of " + (j_array.length() - 1));
             JSONObject tmp_obj = j_array.getJSONObject(i);
+            JSONArray tmp_arr_obj =  new JSONArray(tmp_obj.get("services"));
             String name = tmp_obj.getString("name");
             services_tmp.add(name);
         }
@@ -84,8 +104,6 @@ public class JsonProcess {
         Collections.sort(services_tmp);
         for(int i = 0; i < services.length; i++)
         	services[i] = services_tmp.get(i);
-
         return services;
-    	
     }
 }
