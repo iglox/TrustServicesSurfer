@@ -44,10 +44,10 @@
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <Label text="Label" />
-                                    <Label text="Label" GridPane.rowIndex="2" />
-                                    <ListView prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
-                                    <ListView prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3" />
+                                    <Label prefHeight="16.0" prefWidth="259.0" text="Available country filters (click to add)" />
+                                    <Label prefHeight="16.0" prefWidth="258.0" text="Active country fitlers (click to remove)" GridPane.rowIndex="2" />
+                                    <ListView fx:id="countriesList" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
+                                    <ListView fx:id="selectedCountriesList" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3" />
                                  </children>
                               </GridPane>
                            </children>
@@ -69,10 +69,10 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <Label text="Label" />
-                                    <Label text="Label" GridPane.rowIndex="2" />
-                                    <ListView prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
-                                    <ListView prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3" />
+                                    <Label text="Available service type filters (click to add)" />
+                                    <Label text="Active service type filters (click to remove)" GridPane.rowIndex="2" />
+                                    <ListView fx:id="typesList" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
+                                    <ListView fx:id="selectedTypesList" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3" />
                                  </children>
                               </GridPane>
                            </children>
@@ -94,10 +94,10 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <Label text="Label" />
-                                    <Label text="Label" GridPane.rowIndex="2" />
-                                    <ListView prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
-                                    <ListView prefHeight="404.0" prefWidth="417.0" GridPane.rowIndex="3" />
+                                    <Label text="Available service provider filters (click to add)" />
+                                    <Label text="Active service provider filters (click to remove)" GridPane.rowIndex="2" />
+                                    <ListView fx:id="serviceProvidersList" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
+                                    <ListView fx:id="selectedServiceProvidersList" prefHeight="404.0" prefWidth="417.0" GridPane.rowIndex="3" />
                                  </children>
                               </GridPane>
                            </children>
@@ -119,10 +119,10 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <Label text="Label" />
-                                    <Label text="Label" GridPane.rowIndex="2" />
-                                    <ListView prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
-                                    <ListView prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3" />
+                                    <Label text="Available service state filters (click to add)" />
+                                    <Label text="Active service state filters (click to remove)" GridPane.rowIndex="2" />
+                                    <ListView fx:id="serviceStatesList" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
+                                    <ListView fx:id="selectedServiceStatesList" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3" />
                                  </children>
                               </GridPane>
                            </children>
@@ -140,7 +140,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <ListView prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
+                  <ListView fx:id="ddd" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
                   <Label text="Label" />
                </children>
             </GridPane>

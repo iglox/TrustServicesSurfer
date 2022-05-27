@@ -14,6 +14,10 @@ public class MainWindowController {
     private ListView countriesList;
     @FXML
     private ListView typesList;
+    @FXML
+    private ListView serviceProvidersList;
+    @FXML
+    private ListView serviceStatesList;
     
     @FXML
     private ListView idResult;
@@ -22,6 +26,10 @@ public class MainWindowController {
     private ListView selectedCountriesList;
     @FXML
     private ListView selectedTypesList;
+    @FXML
+    private ListView selectedServiceProvidersList;
+    @FXML
+    private ListView selectedServiceStatesList;
     private Country[] countries;
     private ServiceType[] serviceTypes;
     @FXML
