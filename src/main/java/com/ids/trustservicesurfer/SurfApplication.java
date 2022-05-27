@@ -10,9 +10,9 @@ import java.io.IOException;
 public class SurfApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(SurfApplication.class.getResource("main.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 800, 800);
-        stage.setTitle("Hello!");
+        FXMLLoader fxmlLoader = new FXMLLoader(SurfApplication.class.getResource("side.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 1000, 1000);
+        stage.setTitle("Trust services surfer");
         stage.setScene(scene);
         stage.show();
     }

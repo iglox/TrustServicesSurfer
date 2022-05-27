@@ -66,7 +66,6 @@ public class MainWindowController {
         System.out.println("[+] New filter: " + countriesList.getSelectionModel().getSelectedItem());
         selectedCountriesList.getItems().add(countriesList.getSelectionModel().getSelectedItem());
     }
-
     @FXML
     protected void onTypeFilterAdd() {
         if (typesList.getSelectionModel().getSelectedItem() == null || selectedTypesList.getItems().contains(typesList.getSelectionModel().getSelectedItem()))
@@ -74,6 +73,22 @@ public class MainWindowController {
         System.out.println("[+] New filter: " + typesList.getSelectionModel().getSelectedItem());
         selectedTypesList.getItems().add(typesList.getSelectionModel().getSelectedItem());
     }
+    @FXML
+    protected void onServiceProviderFilterAdd() {
+        if (serviceProvidersList.getSelectionModel().getSelectedItem() == null || selectedServiceProvidersList.getItems().contains(typesList.getSelectionModel().getSelectedItem()))
+            return;
+        System.out.println("[+] New filter: " + serviceProvidersList.getSelectionModel().getSelectedItem());
+        selectedServiceProvidersList.getItems().add(serviceProvidersList.getSelectionModel().getSelectedItem());
+    }
+    @FXML
+    protected void onServiceTypeFilterAdd() {
+        if (serviceStatesList.getSelectionModel().getSelectedItem() == null || selectedServiceStatesList.getItems().contains(typesList.getSelectionModel().getSelectedItem()))
+            return;
+        System.out.println("[+] New filter: " + serviceStatesList.getSelectionModel().getSelectedItem());
+        selectedServiceStatesList.getItems().add(serviceStatesList.getSelectionModel().getSelectedItem());
+    }
+
+
     @FXML
     protected void onCountryFilterRemove() {
         if (selectedCountriesList.getSelectionModel().getSelectedItem() == null)
@@ -88,6 +103,20 @@ public class MainWindowController {
             return;
         System.out.println("[-] Remove filter: " + selectedTypesList.getSelectionModel().getSelectedItem());
         selectedTypesList.getItems().remove(selectedTypesList.getSelectionModel().getSelectedIndex());
+    }
+    @FXML
+    protected void onServiceProviderFilterRemove() {
+        if (selectedServiceProvidersList.getSelectionModel().getSelectedItem() == null)
+            return;
+        System.out.println("[-] Remove filter: " + selectedServiceProvidersList.getSelectionModel().getSelectedItem());
+        selectedServiceProvidersList.getItems().remove(selectedServiceProvidersList.getSelectionModel().getSelectedIndex());
+    }
+    @FXML
+    protected void onServiceTypeFilterRemove() {
+        if (selectedServiceStatesList.getSelectionModel().getSelectedItem() == null)
+            return;
+        System.out.println("[-] Remove filter: " + selectedServiceStatesList.getSelectionModel().getSelectedItem());
+        selectedServiceStatesList.getItems().remove(selectedServiceStatesList.getSelectionModel().getSelectedIndex());
     }
 
     @FXML
