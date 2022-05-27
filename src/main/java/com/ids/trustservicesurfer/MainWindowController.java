@@ -132,6 +132,13 @@ public class MainWindowController {
 
     }
 
+    // Init
+    // TODO: transfer onLoadButtonClick into this method
+    public void initialize() {
+        this.onLoadButtonClick();
+    }
+
+    // Statics methods
     private static String[] extractCode(String[] _countries) {
         String code_extractor_pattern = "^[A-Z]{2}";
         Pattern code_extractor = Pattern.compile(code_extractor_pattern);
@@ -145,4 +152,5 @@ public class MainWindowController {
         }
         return _countries;
     }
+
 }
