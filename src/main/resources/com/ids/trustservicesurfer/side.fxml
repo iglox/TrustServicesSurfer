@@ -96,8 +96,8 @@
                                  <children>
                                     <Label text="Available service provider filters (click to add)" />
                                     <Label text="Active service provider filters (click to remove)" GridPane.rowIndex="2" />
-                                    <ListView fx:id="serviceProvidersList" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
-                                    <ListView fx:id="selectedServiceProvidersList" prefHeight="404.0" prefWidth="417.0" GridPane.rowIndex="3" />
+                                    <ListView fx:id="serviceProvidersList" onMouseClicked="#onServiceProviderFilterAdd" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
+                                    <ListView fx:id="selectedServiceProvidersList" onMouseClicked="#onServiceProviderFilterRemove" prefHeight="404.0" prefWidth="417.0" GridPane.rowIndex="3" />
                                  </children>
                               </GridPane>
                            </children>
@@ -140,7 +140,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <ListView fx:id="ddd" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
+                  <ListView fx:id="resultsList" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
                   <Label text="Label" />
                </children>
             </GridPane>
@@ -171,7 +171,7 @@
    <bottom>
       <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <buttons>
-          <Button mnemonicParsing="false" text="Search" />
+          <Button mnemonicParsing="false" onAction="#onSearchStart" text="Search" />
             <ToggleButton mnemonicParsing="false" text="Auto search" />
         </buttons>
       </ButtonBar>
