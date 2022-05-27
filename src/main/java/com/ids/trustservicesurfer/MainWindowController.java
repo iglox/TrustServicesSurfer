@@ -33,6 +33,7 @@ public class MainWindowController {
     private Country[] countries;
     private ServiceType[] serviceTypes;
     private String[] serviceProviders;
+    private String[] serviceStates;
     @FXML
     protected void onLoadButtonClick() {
         String raw_json;
@@ -66,6 +67,17 @@ public class MainWindowController {
             serviceProvidersList.getItems().clear();
             for (String p : serviceProviders)
                 serviceProvidersList.getItems().add(p);
+        } catch (IOException e) {
+            errorLauncher(e);
+        }
+        // TODO: try to reuse prev downloaded raw_json
+        // States load
+        try {
+            raw_json = connectionFactory.getCompleteServicesListJson();
+            serviceStates =  JsonProcess.serviceStatesExtractorJson(raw_json);
+            serviceStatesList.getItems().clear();
+            for (String p : serviceStates)
+                serviceStatesList.getItems().add(p);
         } catch (IOException e) {
             errorLauncher(e);
         }
@@ -161,7 +173,8 @@ public class MainWindowController {
 
         try {
             String raw_json = connectionFactory.getServicesListJson(countries, types);
-            String[] services = JsonProcess.serviceExtractorJson(raw_json);
+            //TODO real params
+            String[] services = JsonProcess.serviceExtractorJson(raw_json, null, null);
             resultsList.getItems().clear();
             for(String i:services) {
                 System.out.println(i+"-");
