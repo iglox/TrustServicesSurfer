@@ -121,8 +121,8 @@
                                  <children>
                                     <Label text="Available service state filters (click to add)" />
                                     <Label text="Active service state filters (click to remove)" GridPane.rowIndex="2" />
-                                    <ListView fx:id="serviceStatesList" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
-                                    <ListView fx:id="selectedServiceStatesList" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3" />
+                                    <ListView fx:id="serviceStatesList" onMouseClicked="#onServiceStateFilterAdd" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
+                                    <ListView fx:id="selectedServiceStatesList" onMouseClicked="#onServiceStateFilterRemove" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3" />
                                  </children>
                               </GridPane>
                            </children>

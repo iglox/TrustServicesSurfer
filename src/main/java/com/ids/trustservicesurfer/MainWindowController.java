@@ -107,7 +107,7 @@ public class MainWindowController {
     }
     //TOCHECK
     @FXML
-    protected void onServiceTypeFilterAdd() {
+    protected void onServiceStateFilterAdd() {
         if (serviceStatesList.getSelectionModel().getSelectedItem() == null || selectedServiceStatesList.getItems().contains(typesList.getSelectionModel().getSelectedItem()))
             return;
         System.out.println("[+] New filter: " + serviceStatesList.getSelectionModel().getSelectedItem());
@@ -140,7 +140,7 @@ public class MainWindowController {
     }
     //TOCHECK
     @FXML
-    protected void onServiceTypeFilterRemove() {
+    protected void onServiceStateFilterRemove() {
         if (selectedServiceStatesList.getSelectionModel().getSelectedItem() == null)
             return;
         System.out.println("[-] Remove filter: " + selectedServiceStatesList.getSelectionModel().getSelectedItem());
@@ -150,38 +150,61 @@ public class MainWindowController {
     @FXML
     protected void onSearchStart() throws IOException {
         resultsList.getItems().clear();
-    	if((selectedTypesList.getItems().size() == 0) && (selectedCountriesList.getItems().size() == 0 ))
-            searchHandler(countriesList, typesList);
-        else if(selectedTypesList.getItems().size() == 0)
-    		searchHandler(selectedCountriesList,typesList);
-        else if(selectedCountriesList.getItems().size() == 0 )
-    		searchHandler(countriesList, selectedTypesList);
-        else
-    		searchHandler(selectedCountriesList, selectedTypesList);
+        String[] countryFilters,
+                 typeFilters,
+                 providerFilters,
+                 stateFilters;
+
+        // Copy country filters
+        if (selectedCountriesList.getItems().size() == 0)
+            countryFilters = extractCode(countries);
+        else {
+            countryFilters = new String[selectedCountriesList.getItems().size()];
+            for (int i = 0; i < selectedCountriesList.getItems().size(); i++)
+                countryFilters[i] = selectedCountriesList.getItems().get(i).toString();
+            countryFilters = extractCode(countryFilters);
+            System.out.println(countryFilters[0]);
+        }
+        // Copy type filters
+        if (selectedTypesList.getItems().size() == 0) {
+            typeFilters = new String[serviceTypes.length];
+            for (int i = 0; i < serviceTypes.length; i++)
+                typeFilters[i] = serviceTypes[i].getType();
+        } else {
+            typeFilters = new String[selectedTypesList.getItems().size()];
+            for (int i = 0; i < selectedTypesList.getItems().size(); i++)
+                typeFilters[i] = selectedTypesList.getItems().get(i).toString();
+        }
+        // Copy provider filters
+        if (selectedServiceProvidersList.getItems().size() == 0)
+            providerFilters = serviceProviders;
+        else {
+            providerFilters = new String[selectedServiceProvidersList.getItems().size()];
+            for (int i = 0; i < selectedServiceProvidersList.getItems().size(); i++)
+                providerFilters[i] = selectedServiceProvidersList.getItems().get(i).toString();
+        }
+        // Copy state filters
+        if (selectedServiceStatesList.getItems().size() == 0)
+            stateFilters = serviceStates;
+        else {
+            stateFilters = new String[selectedServiceStatesList.getItems().size()];
+            for (int i = 0; i < selectedServiceStatesList.getItems().size(); i++)
+                stateFilters[i] = selectedServiceStatesList.getItems().get(i).toString();
+        }
+
+        searchHandler(countryFilters, typeFilters, providerFilters, stateFilters);
     }
 
-    private void searchHandler(ListView _countries, ListView _types) {
-    	String[] countries = new String[_countries.getItems().size()],
-                 types = new String[_types.getItems().size()];
-
-    	for(int i = 0; i < _countries.getItems().size(); i++)
-			countries[i] =  _countries.getItems().get(i).toString();
-    	for(int i = 0; i < _types.getItems().size(); i++)
-			types[i] = _types.getItems().get(i).toString();
-
-    	countries = extractCode(countries);
-
-        try {
-            String raw_json = connectionFactory.getServicesListJson(countries, types);
-            //TODO real params
-            String[] services = JsonProcess.serviceExtractorJson(raw_json, null, null);
+    private void searchHandler(String[] _countries, String[] _types, String[] _providers, String[] _states) {
+    	try {
+            String raw_json = connectionFactory.getServicesListJson(_countries, _types);
+            String[] services = JsonProcess.serviceExtractorJson(raw_json, _providers, _states);
             resultsList.getItems().clear();
             for(String i:services) {
-                System.out.println(i+"-");
                 resultsList.getItems().add(i);
             }
         } catch(IOException e) {
-            System.out.println("[!] Error: " + e.toString());
+            errorLauncher(e);
         }
     }
 
@@ -209,6 +232,13 @@ public class MainWindowController {
                 throw new RuntimeException("[!] Something went wrong: no pattern found");
         }
         return _countries;
+    }
+    private static String[] extractCode(Country[] _countries) {
+        String[] countries = new String[_countries.length];
+        for (int i = 0; i <  _countries.length; i++) {
+            countries[i] = _countries[i].getCode();
+        }
+        return countries;
     }
 
 }

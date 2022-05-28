@@ -109,7 +109,7 @@ public class JsonProcess {
         Collections.sort(tmp_states);
         String[] states = new String[tmp_states.size()];
         for(int i = 0; i < states.length; i++)
-            states[i] = tmp_states.get(i);
+            states[i] = tmp_states.get(i).substring(tmp_states.get(i).lastIndexOf('/') + 1);
         return states;
     }
 
@@ -122,6 +122,7 @@ public class JsonProcess {
         if (_providers == null || _states == null)
             throw new IllegalArgumentException("One or more arg is null");
 
+        System.out.println("[!] Starting the search");
         // Convert raw json => array of json obj
         JSONArray j_array = new JSONArray(raw_json);
         ArrayList<String> services_tmp = new ArrayList<String>();
@@ -134,16 +135,17 @@ public class JsonProcess {
                     // Check if state matches
                     for (String s : _states) {
                         // For each service provided by the matched service provider
-                        JSONArray tmp_obj_array = new JSONArray(tmp_obj.get("services"));
+                        JSONArray tmp_obj_array = new JSONArray(tmp_obj.get("services").toString());
                         for (int j = 0; j < tmp_obj_array.length(); j++) {
                             // tmp save service`s status and extract the status (last part)
                             String tmp_service_status = tmp_obj_array.getJSONObject(j).get("currentStatus").toString();
-                            String tmp_service_status_extracted = tmp_service_status.substring(tmp_service_status.lastIndexOf('/'));
+                            String tmp_service_status_extracted = tmp_service_status.substring(tmp_service_status.lastIndexOf('/') + 1);
                             if (tmp_service_status_extracted.compareTo(s) == 0) {
                                 // Found it, just add it to the array list building the string
                                 services_tmp.add(tmp_obj_array.getJSONObject(j).get("serviceId").toString() + "::" +
                                         p + "::" + tmp_obj_array.getJSONObject(j).get("serviceName").toString() + "::" + s
                                 );
+                                System.out.println("FOUND ONE");
                             }
                         }
                     }
@@ -151,8 +153,8 @@ public class JsonProcess {
                 }
             }
         }
-
-       String[] services =  new String[services_tmp.size()];
+        System.out.println("[!] Search ended");
+        String[] services =  new String[services_tmp.size()];
 
         Collections.sort(services_tmp);
         for(int i = 0; i < services.length; i++)
