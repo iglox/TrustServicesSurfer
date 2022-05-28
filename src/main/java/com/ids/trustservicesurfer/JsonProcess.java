@@ -145,7 +145,6 @@ public class JsonProcess {
                                 services_tmp.add(tmp_obj_array.getJSONObject(j).get("serviceId").toString() + "::" +
                                         p + "::" + tmp_obj_array.getJSONObject(j).get("serviceName").toString() + "::" + s
                                 );
-                                System.out.println("FOUND ONE");
                             }
                         }
                     }
