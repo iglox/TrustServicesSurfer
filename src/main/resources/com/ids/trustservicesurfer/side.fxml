@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ids.trustservicesurfer.MainWindowController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="660.0" prefWidth="912.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ids.trustservicesurfer.MainWindowController">
    <center>
       <GridPane BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -121,8 +121,8 @@
                                  <children>
                                     <Label text="Available service state filters (click to add)" />
                                     <Label text="Active service state filters (click to remove)" GridPane.rowIndex="2" />
-                                    <ListView fx:id="serviceStatesList" onMouseClicked="#onServiceStateFilterAdd" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
-                                    <ListView fx:id="selectedServiceStatesList" onMouseClicked="#onServiceStateFilterRemove" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3" />
+                                    <ListView fx:id="serviceStatesList" onMouseClicked="#onServiceTypeFilterAdd" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
+                                    <ListView fx:id="selectedServiceStatesList" onMouseClicked="#onServiceTypeFilterRemove" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3" />
                                  </children>
                               </GridPane>
                            </children>

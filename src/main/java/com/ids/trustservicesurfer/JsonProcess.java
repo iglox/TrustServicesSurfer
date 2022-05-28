@@ -116,7 +116,7 @@ public class JsonProcess {
         // Check input params
     	if (raw_json == null || raw_json.length() == 0)
             throw new IllegalArgumentException("Json is null or empty");
-        if (_providers == null || _states == null)
+        if (_providers.length == 0 || _states.length == 0)
             throw new IllegalArgumentException("One or more arg is null");
 
         System.out.println("[!] Starting the search");
@@ -139,8 +139,8 @@ public class JsonProcess {
                             String tmp_service_status_extracted = tmp_service_status.substring(tmp_service_status.lastIndexOf('/') + 1);
                             if (tmp_service_status_extracted.compareTo(s) == 0) {
                                 // Found it, just add it to the array list building the string
-                                services_tmp.add(tmp_obj_array.getJSONObject(j).get("serviceId").toString() + "::" +
-                                        p + "::" + tmp_obj_array.getJSONObject(j).get("serviceName").toString() + "::" + s
+                                services_tmp.add("SERVICE PROVIDER: "+p+"  ::  SERVICE ID: "+tmp_obj_array.getJSONObject(j).get("serviceId").toString() + "  ::  " + "SERVICE NAME: " +
+                                         tmp_obj_array.getJSONObject(j).get("serviceName").toString() + "::" + " SERVICE STATUS: "+s
                                 );
                             }
                         }
