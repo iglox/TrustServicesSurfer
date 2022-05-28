@@ -100,7 +100,7 @@ public class MainWindowController {
     //TOCHECK
     @FXML
     protected void onServiceProviderFilterAdd() {
-        if (serviceProvidersList.getSelectionModel().getSelectedItem() == null || selectedServiceProvidersList.getItems().contains(typesList.getSelectionModel().getSelectedItem()))
+        if (serviceProvidersList.getSelectionModel().getSelectedItem() == null || selectedServiceProvidersList.getItems().contains(serviceProvidersList.getSelectionModel().getSelectedItem()))
             return;
         System.out.println("[+] New filter: " + serviceProvidersList.getSelectionModel().getSelectedItem());
         selectedServiceProvidersList.getItems().add(serviceProvidersList.getSelectionModel().getSelectedItem());
@@ -108,7 +108,7 @@ public class MainWindowController {
     //TOCHECK
     @FXML
     protected void onServiceStateFilterAdd() {
-        if (serviceStatesList.getSelectionModel().getSelectedItem() == null || selectedServiceStatesList.getItems().contains(typesList.getSelectionModel().getSelectedItem()))
+        if (serviceStatesList.getSelectionModel().getSelectedItem() == null || selectedServiceStatesList.getItems().contains(serviceStatesList.getSelectionModel().getSelectedItem()))
             return;
         System.out.println("[+] New filter: " + serviceStatesList.getSelectionModel().getSelectedItem());
         selectedServiceStatesList.getItems().add(serviceStatesList.getSelectionModel().getSelectedItem());
@@ -148,8 +148,17 @@ public class MainWindowController {
     }
 
     @FXML
-    protected void onSearchStart() throws IOException {
+    protected void onSearchStart() {
         resultsList.getItems().clear();
+
+        if(countries == null || serviceTypes == null || serviceProviders == null || serviceStates == null) {
+            // Try to reload
+            this.onLoadButtonClick();
+            if(countries == null || serviceTypes == null || serviceProviders == null || serviceStates == null) {
+                errorLauncher(new Exception("Something went wrong, check internet connection"));
+                return;
+            }
+        }
         String[] countryFilters,
                  typeFilters,
                  providerFilters,
@@ -163,7 +172,6 @@ public class MainWindowController {
             for (int i = 0; i < selectedCountriesList.getItems().size(); i++)
                 countryFilters[i] = selectedCountriesList.getItems().get(i).toString();
             countryFilters = extractCode(countryFilters);
-            System.out.println(countryFilters[0]);
         }
         // Copy type filters
         if (selectedTypesList.getItems().size() == 0) {
@@ -208,9 +216,9 @@ public class MainWindowController {
         }
     }
 
+    //TODO: prepare error window
     private void errorLauncher(Exception e) {
-        //TODO
-
+        System.out.println(e);
     }
 
     // Init

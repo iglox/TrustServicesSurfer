@@ -35,6 +35,8 @@ public class ConnectionFactory {
             while ((responseLine = br.readLine()) != null)
                 response.append(responseLine.trim());
             return response.toString();
+        } catch (Exception e) {
+            throw(e);
         }
 
     }
@@ -55,11 +57,14 @@ public class ConnectionFactory {
             while ((responseLine = br.readLine()) != null)
                 response.append(responseLine.trim());
             return response.toString();
+        } catch (Exception e) {
+            throw(e);
         }
     }
 
     public String getServicesListJson(String[] _countries, String[] _types) throws IOException {
-        // TODO check input
+        if (_countries == null || _countries.length == 0 || _types == null || _types.length == 0)
+            throw new IllegalArgumentException("One or more args is null or empty");
     	
         URL url = new URL("https://esignature.ec.europa.eu/efda/tl-browser/api/v1/search/find_by_type");
         
@@ -85,6 +90,8 @@ public class ConnectionFactory {
             while ((responseLine = br.readLine()) != null)
                 response.append(responseLine.trim());
             return response.toString(); 
+        } catch (Exception e) {
+            throw(e);
         }
     }
 }

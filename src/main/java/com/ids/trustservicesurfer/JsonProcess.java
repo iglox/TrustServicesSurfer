@@ -104,8 +104,6 @@ public class JsonProcess {
             }
         }
         // Sort it
-
-        // TODO: CLEAN IT
         Collections.sort(tmp_states);
         String[] states = new String[tmp_states.size()];
         for(int i = 0; i < states.length; i++)
@@ -113,8 +111,7 @@ public class JsonProcess {
         return states;
     }
 
-    //TODO: add comments
-    //TODO: not tested
+    // TODO: optimize(?)
     public static String[] serviceExtractorJson (String raw_json, String[] _providers, String[] _states) {
         // Check input params
     	if (raw_json == null || raw_json.length() == 0)
