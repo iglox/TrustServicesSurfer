@@ -152,6 +152,8 @@ public class MainWindowController {
         resultsList.getItems().clear();
     	if((selectedTypesList.getItems().size() == 0) && (selectedCountriesList.getItems().size() == 0 ) && (selectedServiceStatesList.getItems().size() == 0 ) && (selectedServiceProvidersList.getItems().size() == 0 ))
             resultsList.getItems().add("ERROR: parameters not found!!");
+        else if((selectedTypesList.getItems().size() == 0) && (selectedCountriesList.getItems().size() == 0 ) && ((selectedServiceStatesList.getItems().size() != 0 ) || (selectedServiceProvidersList.getItems().size() != 0 )))
+            searchHandler(countriesList, typesList);
         else if(selectedTypesList.getItems().size() == 0)
     		searchHandler(selectedCountriesList,typesList);
         else if(selectedCountriesList.getItems().size() == 0 )
@@ -159,6 +161,8 @@ public class MainWindowController {
         else
     		searchHandler(selectedCountriesList, selectedTypesList);
     }
+
+
 
     private void searchHandler(ListView _countries, ListView _types) {
     	String[] countries = new String[_countries.getItems().size()],
@@ -175,16 +179,54 @@ public class MainWindowController {
             String raw_json = connectionFactory.getServicesListJson(countries, types);
             //TODO real params
 
+            String[] servState;
+            String[] servProvider;
+            if(selectedServiceProvidersList.getItems().size()==0 && selectedServiceStatesList.getItems().size()==0)
+            {
+                servState = new String[serviceStatesList.getItems().size()];
+                servProvider = new String[serviceProvidersList.getItems().size()];
+                for(int i = 0; i < servState.length; i++)
+                    servState[i] =  serviceStatesList.getItems().get(i).toString();
 
-            String[] servState = new String[selectedServiceStatesList.getItems().size()];
-            String[] servProvider = new String[selectedServiceProvidersList.getItems().size()];
+                for(int i = 0; i < servProvider.length; i++)
+                    servProvider[i] =  serviceProvidersList.getItems().get(i).toString();
 
-            for(int i = 0; i < selectedServiceStatesList.getItems().size(); i++)
-                servState[i] =  selectedServiceStatesList.getItems().get(i).toString();
+            }
 
-            for(int i = 0; i < selectedServiceProvidersList.getItems().size(); i++)
-                servProvider[i] =  selectedServiceProvidersList.getItems().get(i).toString();
+            else if(selectedServiceProvidersList.getItems().size()==0 )
+            {
+                servState = new String[selectedServiceStatesList.getItems().size()];
+                servProvider = new String[serviceProvidersList.getItems().size()];
+                for(int i = 0; i < servState.length; i++)
+                    servState[i] =  selectedServiceStatesList.getItems().get(i).toString();
 
+                for(int i = 0; i < servProvider.length; i++)
+                    servProvider[i] =  serviceProvidersList.getItems().get(i).toString();
+
+            }
+
+            else if(selectedServiceStatesList.getItems().size()==0 )
+            {
+                servState = new String[serviceStatesList.getItems().size()];
+                servProvider = new String[selectedServiceProvidersList.getItems().size()];
+                for(int i = 0; i < servState.length; i++)
+                    servState[i] =  serviceStatesList.getItems().get(i).toString();
+
+                for(int i = 0; i < servProvider.length; i++)
+                    servProvider[i] =  selectedServiceProvidersList.getItems().get(i).toString();
+
+            }
+            else
+            {
+                servState = new String[selectedServiceStatesList.getItems().size()];
+                servProvider = new String[selectedServiceProvidersList.getItems().size()];
+
+                for(int i = 0; i < selectedServiceStatesList.getItems().size(); i++)
+                    servState[i] =  selectedServiceStatesList.getItems().get(i).toString();
+
+                for(int i = 0; i < selectedServiceProvidersList.getItems().size(); i++)
+                    servProvider[i] =  selectedServiceProvidersList.getItems().get(i).toString();
+            }
 
             String[] services = JsonProcess.serviceExtractorJson(raw_json, servProvider, servState);
             resultsList.getItems().clear();
