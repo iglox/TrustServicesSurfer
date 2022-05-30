@@ -18,7 +18,7 @@ public class MainWindowController {
     private ListView serviceProvidersList;
     @FXML
     private ListView serviceStatesList;
-    
+
     @FXML
     private ListView resultsList;
 
@@ -34,53 +34,49 @@ public class MainWindowController {
     private ServiceType[] serviceTypes;
     private String[] serviceProviders;
     private String[] serviceStates;
-    @FXML
-    protected void onLoadButtonClick() {
+
+
+    // Init
+    public void initialize() {
         String raw_json;
-        // Contries Load
+        // Try to get initial json string containing countries list
         try {
             raw_json = connectionFactory.getCountriesListJson();
-            countries = JsonProcess.countryExtractorJson(raw_json);
-            countriesList.getItems().clear();
-            for (Country c : countries) {
-                countriesList.getItems().add(c);
-            }
         } catch(IOException e) {
             errorLauncher(e);
+            return;
+        }
+        // Contries Load
+        countries = JsonProcess.countryExtractorJson(raw_json);
+        countriesList.getItems().clear();
+        for (Country c : countries)
+            countriesList.getItems().add(c);
+
+        // Try to get json string containing the complete list of services
+        try {
+            raw_json = connectionFactory.getCompleteServicesListJson();
+        } catch (IOException e) {
+            errorLauncher(e);
+            return;
         }
 
         // Types Load
-        try {
-            raw_json = connectionFactory.getCompleteServicesListJson();
-            serviceTypes =  JsonProcess.serviceTypesExtractorJson(raw_json);
-            typesList.getItems().clear();
-            for (ServiceType c : serviceTypes)
-                typesList.getItems().add(c);
-        } catch (IOException e) {
-            errorLauncher(e);
-        }
-        // TODO: try to reuse prev downloaded raw_json
+        serviceTypes = JsonProcess.serviceTypesExtractorJson(raw_json);
+        typesList.getItems().clear();
+        for (ServiceType c : serviceTypes)
+            typesList.getItems().add(c);
+
         // Providers load
-        try {
-            raw_json = connectionFactory.getCompleteServicesListJson();
-            serviceProviders =  JsonProcess.serviceProvidersExtractorJson(raw_json);
-            serviceProvidersList.getItems().clear();
-            for (String p : serviceProviders)
-                serviceProvidersList.getItems().add(p);
-        } catch (IOException e) {
-            errorLauncher(e);
-        }
-        // TODO: try to reuse prev downloaded raw_json
+        serviceProviders = JsonProcess.serviceProvidersExtractorJson(raw_json);
+        serviceProvidersList.getItems().clear();
+        for (String p : serviceProviders)
+            serviceProvidersList.getItems().add(p);
+
         // States load
-        try {
-            raw_json = connectionFactory.getCompleteServicesListJson();
-            serviceStates =  JsonProcess.serviceStatesExtractorJson(raw_json);
-            serviceStatesList.getItems().clear();
-            for (String p : serviceStates)
-                serviceStatesList.getItems().add(p);
-        } catch (IOException e) {
-            errorLauncher(e);
-        }
+        serviceStates = JsonProcess.serviceStatesExtractorJson(raw_json);
+        serviceStatesList.getItems().clear();
+        for (String p : serviceStates)
+            serviceStatesList.getItems().add(p);
     }
 
     @FXML
@@ -150,108 +146,76 @@ public class MainWindowController {
     @FXML
     protected void onSearchStart() throws IOException {
         resultsList.getItems().clear();
-    	if((selectedTypesList.getItems().size() == 0) && (selectedCountriesList.getItems().size() == 0 ) && (selectedServiceStatesList.getItems().size() == 0 ) && (selectedServiceProvidersList.getItems().size() == 0 ))
-            resultsList.getItems().add("ERROR: parameters not found!!");
-        else if((selectedTypesList.getItems().size() == 0) && (selectedCountriesList.getItems().size() == 0 ) && ((selectedServiceStatesList.getItems().size() != 0 ) || (selectedServiceProvidersList.getItems().size() != 0 )))
-            searchHandler(countriesList, typesList);
-        else if(selectedTypesList.getItems().size() == 0)
-    		searchHandler(selectedCountriesList,typesList);
-        else if(selectedCountriesList.getItems().size() == 0 )
-    		searchHandler(countriesList, selectedTypesList);
-        else
-    		searchHandler(selectedCountriesList, selectedTypesList);
+        String[] countryFilters,
+                typeFilters,
+                providerFilters,
+                stateFilters;
+
+        // Copy country filters
+        if (selectedCountriesList.getItems().size() == 0)
+            countryFilters = extractCode(countries);
+        else {
+            countryFilters = new String[selectedCountriesList.getItems().size()];
+            for (int i = 0; i < selectedCountriesList.getItems().size(); i++)
+                countryFilters[i] = selectedCountriesList.getItems().get(i).toString();
+            try {
+                countryFilters = extractCode(countryFilters);
+            } catch(RuntimeException e) {
+                errorLauncher(e);
+            }
+        }
+        // Copy type filters
+        if (selectedTypesList.getItems().size() == 0) {
+            typeFilters = new String[serviceTypes.length];
+            for (int i = 0; i < serviceTypes.length; i++)
+                typeFilters[i] = serviceTypes[i].getType();
+        } else {
+            typeFilters = new String[selectedTypesList.getItems().size()];
+            for (int i = 0; i < selectedTypesList.getItems().size(); i++)
+                typeFilters[i] = selectedTypesList.getItems().get(i).toString();
+        }
+        // Copy provider filters
+        if (selectedServiceProvidersList.getItems().size() == 0)
+            providerFilters = serviceProviders;
+        else {
+            providerFilters = new String[selectedServiceProvidersList.getItems().size()];
+            for (int i = 0; i < selectedServiceProvidersList.getItems().size(); i++)
+                providerFilters[i] = selectedServiceProvidersList.getItems().get(i).toString();
+        }
+        // Copy state filters
+        if (selectedServiceStatesList.getItems().size() == 0)
+            stateFilters = serviceStates;
+        else {
+            stateFilters = new String[selectedServiceStatesList.getItems().size()];
+            for (int i = 0; i < selectedServiceStatesList.getItems().size(); i++)
+                stateFilters[i] = selectedServiceStatesList.getItems().get(i).toString();
+        }
+
+        searchHandler(countryFilters, typeFilters, providerFilters, stateFilters);
     }
 
-
-
-    private void searchHandler(ListView _countries, ListView _types) {
-    	String[] countries = new String[_countries.getItems().size()],
-                 types = new String[_types.getItems().size()];
-
-    	for(int i = 0; i < _countries.getItems().size(); i++)
-			countries[i] =  _countries.getItems().get(i).toString();
-    	for(int i = 0; i < _types.getItems().size(); i++)
-			types[i] = _types.getItems().get(i).toString();
-
-    	countries = extractCode(countries);
-
+    private void searchHandler(String[] _countries, String[] _types, String[] _providers, String[] _states) {
+        String raw_json;
         try {
-            String raw_json = connectionFactory.getServicesListJson(countries, types);
-            //TODO real params
-
-            String[] servState;
-            String[] servProvider;
-            if(selectedServiceProvidersList.getItems().size()==0 && selectedServiceStatesList.getItems().size()==0)
-            {
-                servState = new String[serviceStatesList.getItems().size()];
-                servProvider = new String[serviceProvidersList.getItems().size()];
-                for(int i = 0; i < servState.length; i++)
-                    servState[i] =  serviceStatesList.getItems().get(i).toString();
-
-                for(int i = 0; i < servProvider.length; i++)
-                    servProvider[i] =  serviceProvidersList.getItems().get(i).toString();
-
-            }
-
-            else if(selectedServiceProvidersList.getItems().size()==0 )
-            {
-                servState = new String[selectedServiceStatesList.getItems().size()];
-                servProvider = new String[serviceProvidersList.getItems().size()];
-                for(int i = 0; i < servState.length; i++)
-                    servState[i] =  selectedServiceStatesList.getItems().get(i).toString();
-
-                for(int i = 0; i < servProvider.length; i++)
-                    servProvider[i] =  serviceProvidersList.getItems().get(i).toString();
-
-            }
-
-            else if(selectedServiceStatesList.getItems().size()==0 )
-            {
-                servState = new String[serviceStatesList.getItems().size()];
-                servProvider = new String[selectedServiceProvidersList.getItems().size()];
-                for(int i = 0; i < servState.length; i++)
-                    servState[i] =  serviceStatesList.getItems().get(i).toString();
-
-                for(int i = 0; i < servProvider.length; i++)
-                    servProvider[i] =  selectedServiceProvidersList.getItems().get(i).toString();
-
-            }
-            else
-            {
-                servState = new String[selectedServiceStatesList.getItems().size()];
-                servProvider = new String[selectedServiceProvidersList.getItems().size()];
-
-                for(int i = 0; i < selectedServiceStatesList.getItems().size(); i++)
-                    servState[i] =  selectedServiceStatesList.getItems().get(i).toString();
-
-                for(int i = 0; i < selectedServiceProvidersList.getItems().size(); i++)
-                    servProvider[i] =  selectedServiceProvidersList.getItems().get(i).toString();
-            }
-
-            String[] services = JsonProcess.serviceExtractorJson(raw_json, servProvider, servState);
-            resultsList.getItems().clear();
-            for(String i:services) {
-                System.out.println(i+"-");
-                resultsList.getItems().add(i);
-            }
+            raw_json = connectionFactory.getServicesListJson(_countries, _types);
         } catch(IOException e) {
-            System.out.println("[!] Error: " + e.toString());
+            errorLauncher(e);
+            return;
+        }
+        String[] services = JsonProcess.serviceExtractorJson(raw_json, _providers, _states);
+        resultsList.getItems().clear();
+        for(String i:services) {
+            resultsList.getItems().add(i);
         }
     }
 
     private void errorLauncher(Exception e) {
         //TODO
-
-    }
-
-    // Init
-    // TODO: transfer onLoadButtonClick into this method
-    public void initialize() {
-        this.onLoadButtonClick();
+        System.out.println(e);
     }
 
     // Statics methods
-    private static String[] extractCode(String[] _countries) {
+    private static String[] extractCode(String[] _countries) throws RuntimeException {
         String code_extractor_pattern = "^[A-Z]{2}";
         Pattern code_extractor = Pattern.compile(code_extractor_pattern);
 
@@ -263,6 +227,13 @@ public class MainWindowController {
                 throw new RuntimeException("[!] Something went wrong: no pattern found");
         }
         return _countries;
+    }
+    private static String[] extractCode(Country[] _countries) {
+        String[] countries = new String[_countries.length];
+        for (int i = 0; i <  _countries.length; i++) {
+            countries[i] = _countries[i].getCode();
+        }
+        return countries;
     }
 
 }
