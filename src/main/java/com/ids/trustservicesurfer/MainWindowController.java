@@ -18,7 +18,7 @@ public class MainWindowController {
     private ListView serviceProvidersList;
     @FXML
     private ListView serviceStatesList;
-
+    
     @FXML
     private ListView resultsList;
 
@@ -39,20 +39,19 @@ public class MainWindowController {
     // Init
     public void initialize() {
         String raw_json;
-        // Try to get initial json string containing countries list
+        // Contries Load
         try {
             raw_json = connectionFactory.getCountriesListJson();
+            countries = JsonProcess.countryExtractorJson(raw_json);
+            countriesList.getItems().clear();
+            for (Country c : countries) {
+                countriesList.getItems().add(c);
+            }
         } catch(IOException e) {
             errorLauncher(e);
             return;
         }
-        // Contries Load
-        countries = JsonProcess.countryExtractorJson(raw_json);
-        countriesList.getItems().clear();
-        for (Country c : countries)
-            countriesList.getItems().add(c);
 
-        // Try to get json string containing the complete list of services
         try {
             raw_json = connectionFactory.getCompleteServicesListJson();
         } catch (IOException e) {
