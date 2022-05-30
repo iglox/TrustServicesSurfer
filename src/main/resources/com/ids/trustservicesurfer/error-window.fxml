@@ -4,9 +4,8 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ids.trustservicesurfer.ErrorWindowController">
    <children>
-      <Button fx:id="okButton" layoutX="57.0" layoutY="135.0" mnemonicParsing="false" text="Ok" />
-      <Text layoutX="17.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="266.7294921875"  text="$labelText"/>
+      <Text layoutX="17.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="$labelText" wrappingWidth="266.7294921875" />
    </children>
 </Pane>

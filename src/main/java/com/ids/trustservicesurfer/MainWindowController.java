@@ -276,7 +276,7 @@ public class MainWindowController {
             stage.setScene(scene);
             stage.show();
         } catch (IOException ee) {
-
+            System.out.println(ee.toString());
         }
     }
 
