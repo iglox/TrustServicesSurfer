@@ -9,7 +9,7 @@ STRUTTURA APPLICAZIONE:
 - Il riquadro posto sulla parte destra intitolato " Server response " visualizza la risposta del sistema alla query fatta dall' utente tramite la precedente selzione dei filtri.
   -Nella parte inferiore dell' interfaccia viene visualizzato un button denominato "Search" che quando azionato avvia l'interrogazione del sistema, la quale si conclude con la stampa della risposta del server nella sezione "Server response".
 
-#FUNZIONAMENTO APPLICAZIONE:
+FUNZIONAMENTO APPLICAZIONE:
 L'utente potrà navigare da una lista all' altra selezionando la relativa etichetta della raccolta, e potrà selezionare per ciascuna lista il corrispettivo filtro che si vuole applicare per interrogare il sistema (cliccando con il tasto sinistro del mouse sull'etichetta nominativa dell' elemento della lista voluta).
 Inoltre è possibile deselezionare il filtro scelto andando a cliccare l'etichetta nomminativa di quest' ultimo nella Lista dinamica.
 L' applicazione per poter ultilmare la ricerca e restituire le risposte volute NON richiede che venga selezionato almeno un filtro per lista, tuttavia richiede che venga selezionato almeno 1 filtro ( lasciando anche vuote le altre liste ).
