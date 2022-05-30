@@ -113,7 +113,7 @@ public class MainWindowController {
     }
     //TOCHECK
     @FXML
-    protected void onServiceTypeFilterAdd() {
+    protected void onServiceStateFilterAdd() {
         if (serviceStatesList.getSelectionModel().getSelectedItem() == null || selectedServiceStatesList.getItems().contains(serviceStatesList.getSelectionModel().getSelectedItem()))
             return;
         System.out.println("[+] New filter: " + serviceStatesList.getSelectionModel().getSelectedItem());
@@ -146,7 +146,7 @@ public class MainWindowController {
     }
     //TOCHECK
     @FXML
-    protected void onServiceTypeFilterRemove() {
+    protected void onServiceStateFilterRemove() {
         if (selectedServiceStatesList.getSelectionModel().getSelectedItem() == null)
             return;
         System.out.println("[-] Remove filter: " + selectedServiceStatesList.getSelectionModel().getSelectedItem());
