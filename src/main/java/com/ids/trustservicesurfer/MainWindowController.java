@@ -1,7 +1,11 @@
 package com.ids.trustservicesurfer;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.regex.Matcher;
@@ -30,6 +34,10 @@ public class MainWindowController {
     private ListView selectedServiceProvidersList;
     @FXML
     private ListView selectedServiceStatesList;
+    @FXML
+    private MenuItem quitButton;
+
+
     private Country[] countries;
     private ServiceType[] serviceTypes;
     private String[] serviceProviders;
@@ -39,19 +47,22 @@ public class MainWindowController {
     // Init
     public void initialize() {
         String raw_json;
-        // Contries Load
+
+        // Try to get a json string containing the countries
         try {
             raw_json = connectionFactory.getCountriesListJson();
-            countries = JsonProcess.countryExtractorJson(raw_json);
-            countriesList.getItems().clear();
-            for (Country c : countries) {
-                countriesList.getItems().add(c);
-            }
         } catch(IOException e) {
             errorLauncher(e);
             return;
         }
+        // Countries Load
+        countries = JsonProcess.countryExtractorJson(raw_json);
+        countriesList.getItems().clear();
+        for (Country c : countries) {
+            countriesList.getItems().add(c);
+        }
 
+        // Try to get a json containing the complete list of services
         try {
             raw_json = connectionFactory.getCompleteServicesListJson();
         } catch (IOException e) {
@@ -140,6 +151,30 @@ public class MainWindowController {
             return;
         System.out.println("[-] Remove filter: " + selectedServiceStatesList.getSelectionModel().getSelectedItem());
         selectedServiceStatesList.getItems().remove(selectedServiceStatesList.getSelectionModel().getSelectedIndex());
+    }
+
+    @FXML
+    public void handleCloseButtonAction(ActionEvent event) {
+        System.exit(0);
+    }
+
+    @FXML
+    public void handleResetAction(ActionEvent event) {
+        System.out.println("[!] Resetting filters and results");
+        selectedServiceStatesList.getItems().clear();
+        selectedTypesList.getItems().clear();
+        selectedServiceProvidersList.getItems().clear();
+        selectedCountriesList.getItems().clear();
+        resultsList.getItems().clear();
+    }
+    @FXML
+    public void handleHelpAction(ActionEvent event) {
+        System.out.println("[!] Resetting filters and results");
+        selectedServiceStatesList.getItems().clear();
+        selectedTypesList.getItems().clear();
+        selectedServiceProvidersList.getItems().clear();
+        selectedCountriesList.getItems().clear();
+        resultsList.getItems().clear();
     }
 
     @FXML
