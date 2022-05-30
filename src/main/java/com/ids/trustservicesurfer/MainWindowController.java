@@ -2,12 +2,17 @@ package com.ids.trustservicesurfer;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.EventObject;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -185,9 +190,9 @@ public class MainWindowController {
                 providerFilters,
                 stateFilters;
 
-        //error statement
+        // Error statement
         if(selectedCountriesList.getItems().size() == 0 && selectedTypesList.getItems().size() == 0 && selectedServiceProvidersList.getItems().size() == 0 && selectedServiceStatesList.getItems().size() == 0) {
-            errorLauncher(new IOException(("ERROR: parameters not found!")));
+            errorLauncher(new IOException("Error: no active filter detected, select at least one to continue."));
             return;
         }
         // Copy country filters
@@ -222,9 +227,16 @@ public class MainWindowController {
                 providerFilters[i] = selectedServiceProvidersList.getItems().get(i).toString();
         }
         // Copy state filters
-        if (selectedServiceStatesList.getItems().size() == 0)
-            stateFilters = serviceStates;
-        else {
+        if (selectedServiceStatesList.getItems().size() == 0) {
+            stateFilters = new String[serviceStates.length - 1];
+            int i = 0;
+            for (String state : serviceStates) {
+                if (state.compareTo("deprecatedatnationallevel") != 0) {
+                    stateFilters[i] = state;
+                    i++;
+                }
+            }
+        } else {
             stateFilters = new String[selectedServiceStatesList.getItems().size()];
             for (int i = 0; i < selectedServiceStatesList.getItems().size(); i++)
                 stateFilters[i] = selectedServiceStatesList.getItems().get(i).toString();
@@ -251,7 +263,21 @@ public class MainWindowController {
 
     private void errorLauncher(Exception e) {
         //TODO
-        resultsList.getItems().add(e);
+        //resultsList.getItems().add(e);
+
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("error-window.fxml"));
+                fxmlLoader.getNamespace().put("labelText", e.toString());
+
+            Scene scene = new Scene(fxmlLoader.load(), 300, 200);
+            Stage stage = new Stage();
+            stage.setTitle("Something went wrong");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException ee) {
+
+        }
     }
 
     // Statics methods
