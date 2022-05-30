@@ -185,6 +185,11 @@ public class MainWindowController {
                 providerFilters,
                 stateFilters;
 
+        //error statement
+        if(selectedCountriesList.getItems().size() == 0 && selectedTypesList.getItems().size() == 0 && selectedServiceProvidersList.getItems().size() == 0 && selectedServiceStatesList.getItems().size() == 0) {
+            errorLauncher(new IOException(("ERROR: parameters not found!")));
+            return;
+        }
         // Copy country filters
         if (selectedCountriesList.getItems().size() == 0)
             countryFilters = extractCode(countries);
@@ -226,6 +231,7 @@ public class MainWindowController {
         }
 
         searchHandler(countryFilters, typeFilters, providerFilters, stateFilters);
+        //resultsList.getItems().add("ERROR: parameters not found");
     }
 
     private void searchHandler(String[] _countries, String[] _types, String[] _providers, String[] _states) {
@@ -245,7 +251,7 @@ public class MainWindowController {
 
     private void errorLauncher(Exception e) {
         //TODO
-        System.out.println(e);
+        resultsList.getItems().add(e);
     }
 
     // Statics methods
