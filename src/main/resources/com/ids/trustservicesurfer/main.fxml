@@ -141,7 +141,7 @@
               </rowConstraints>
                <children>
                   <ListView fx:id="resultsList" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
-                  <Label text="Label" />
+                  <Label text="Response List" />
                </children>
             </GridPane>
          </children>
