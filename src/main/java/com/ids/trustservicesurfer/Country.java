@@ -8,7 +8,7 @@ public class Country implements Comparable<Country>{
         if (_name == null || _code == null || _name.length() == 0 || _code.length() == 0)
             throw new IllegalArgumentException("One or more string is null or empty");
         name = _name;
-        code = _code;
+        code = _code.toUpperCase();
     }
 
     public String getCode() {
