@@ -1,6 +1,5 @@
 package com.ids.trustservicesurfer;
 
-import javafx.print.Collation;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
