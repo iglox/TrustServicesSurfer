@@ -168,15 +168,6 @@ public class MainWindowController {
         selectedCountriesList.getItems().clear();
         resultsList.getItems().clear();
     }
-    @FXML
-    public void handleHelpAction(ActionEvent event) {
-        System.out.println("[!] Resetting filters and results");
-        selectedServiceStatesList.getItems().clear();
-        selectedTypesList.getItems().clear();
-        selectedServiceProvidersList.getItems().clear();
-        selectedCountriesList.getItems().clear();
-        resultsList.getItems().clear();
-    }
 
     @FXML
     protected void onSearchStart() throws IOException {

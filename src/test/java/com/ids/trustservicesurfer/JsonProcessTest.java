@@ -1,5 +1,8 @@
 package com.ids.trustservicesurfer;
 
+import com.ids.trustservicesurfer.Country;
+import com.ids.trustservicesurfer.JsonProcess;
+import com.ids.trustservicesurfer.ServiceType;
 import org.junit.Test;
 
 import java.util.Arrays;

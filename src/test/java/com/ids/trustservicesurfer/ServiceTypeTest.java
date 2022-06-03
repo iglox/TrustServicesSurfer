@@ -1,5 +1,6 @@
 package com.ids.trustservicesurfer;
 
+import com.ids.trustservicesurfer.ServiceType;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

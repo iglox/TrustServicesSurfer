@@ -11,7 +11,7 @@ public class ConnectionFactory {
     private final String service_url = "https://esignature.ec.europa.eu/efda/tl-browser/api/v1/search/tsp_list";
     private final String countries_list_url = "https://esignature.ec.europa.eu/efda/tl-browser/api/v1/search/countries_list";
 
-    protected static String buildSearchCriteriaString(String[] _countries, String[] _types) {
+    public static String buildSearchCriteriaString(String[] _countries, String[] _types) {
         JSONObject tmp_json_obj = new JSONObject();
         tmp_json_obj.put("countries", _countries);
         tmp_json_obj.put("qServiceTypes", _types);
