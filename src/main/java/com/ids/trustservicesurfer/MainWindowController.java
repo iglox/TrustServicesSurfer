@@ -52,6 +52,7 @@ public class MainWindowController {
 
     private JSONArray complete_list_jarray;
 
+    //TODO delx2
     private enum Filter {TYPE, COUNTRY, PROVIDER, STATE}
     private Filter first_selection = null;
 
@@ -107,7 +108,7 @@ public class MainWindowController {
         selectedCountriesList.getItems().add(countriesList.getSelectionModel().getSelectedItem());
         if (first_selection == null)
             first_selection = Filter.COUNTRY;
-        this.updateAvailableFiltersOnChange();
+        this.updateAvailableFiltersOnChange(Filter.COUNTRY);
     }
     @FXML
     protected void onTypeFilterAdd() {
@@ -117,7 +118,7 @@ public class MainWindowController {
         selectedTypesList.getItems().add(typesList.getSelectionModel().getSelectedItem());
         if (first_selection == null)
             first_selection = Filter.TYPE;
-        this.updateAvailableFiltersOnChange();
+        this.updateAvailableFiltersOnChange(Filter.TYPE);
     }
     @FXML
     protected void onServiceProviderFilterAdd() {
@@ -127,7 +128,7 @@ public class MainWindowController {
         selectedServiceProvidersList.getItems().add(serviceProvidersList.getSelectionModel().getSelectedItem());
         if (first_selection == null)
             first_selection = Filter.PROVIDER;
-        this.updateAvailableFiltersOnChange();
+        this.updateAvailableFiltersOnChange(Filter.PROVIDER);
     }
     @FXML
     protected void onServiceStateFilterAdd() {
@@ -137,7 +138,7 @@ public class MainWindowController {
         selectedServiceStatesList.getItems().add(serviceStatesList.getSelectionModel().getSelectedItem());
         if (first_selection == null)
             first_selection = Filter.STATE;
-        this.updateAvailableFiltersOnChange();
+        this.updateAvailableFiltersOnChange(Filter.STATE);
     }
 
 
@@ -147,7 +148,7 @@ public class MainWindowController {
             return;
         System.out.println("[-] Remove filter: " + selectedCountriesList.getSelectionModel().getSelectedItem());
         selectedCountriesList.getItems().remove(selectedCountriesList.getSelectionModel().getSelectedIndex());
-        this.updateAvailableFiltersOnChange();
+        this.updateAvailableFiltersOnChange(Filter.COUNTRY);
     }
 
     @FXML
@@ -156,7 +157,7 @@ public class MainWindowController {
             return;
         System.out.println("[-] Remove filter: " + selectedTypesList.getSelectionModel().getSelectedItem());
         selectedTypesList.getItems().remove(selectedTypesList.getSelectionModel().getSelectedIndex());
-        this.updateAvailableFiltersOnChange();
+        this.updateAvailableFiltersOnChange(Filter.TYPE);
     }
     @FXML
     protected void onServiceProviderFilterRemove() {
@@ -164,7 +165,7 @@ public class MainWindowController {
             return;
         System.out.println("[-] Remove filter: " + selectedServiceProvidersList.getSelectionModel().getSelectedItem());
         selectedServiceProvidersList.getItems().remove(selectedServiceProvidersList.getSelectionModel().getSelectedIndex());
-        this.updateAvailableFiltersOnChange();
+        this.updateAvailableFiltersOnChange(Filter.PROVIDER);
     }
     @FXML
     protected void onServiceStateFilterRemove() {
@@ -172,9 +173,10 @@ public class MainWindowController {
             return;
         System.out.println("[-] Remove filter: " + selectedServiceStatesList.getSelectionModel().getSelectedItem());
         selectedServiceStatesList.getItems().remove(selectedServiceStatesList.getSelectionModel().getSelectedIndex());
-        this.updateAvailableFiltersOnChange();
+        this.updateAvailableFiltersOnChange(Filter.STATE);
     }
 
+    //TODO del
     private void updateAvailableCountryFilters(String[] available_countries) {
         selectedCountriesList.getItems().clear();
         countriesList.getItems().clear();
@@ -201,7 +203,7 @@ public class MainWindowController {
 
 
     // FIXME
-    private void updateAvailableFiltersOnChange() {
+    private void updateAvailableFiltersOnChange(Filter updated_filter) {
         String[] countryFilters,
                 typeFilters,
                 providerFilters,
@@ -228,14 +230,20 @@ public class MainWindowController {
         String[][] s = JsonProcess.availableFilterExtractorJson(complete_list_jarray, countryFilters, typeFilters, stateFilters, providerFilters);
         System.out.println(s.length + " " + s[0].length + " " + s[1].length + " " + s[2].length + " " + s[3].length);
 
-        if (first_selection != Filter.COUNTRY)
-            updateAvailableCountryFilters(s[0]);
-        if (first_selection != Filter.TYPE)
-            updateAvailableTypeFilters(s[1]);
-        if (first_selection != Filter.STATE)
-            updateAvailableStateFilters(s[2]);
-        if (first_selection != Filter.PROVIDER)
+        // COUNTRY => PROVIDER => TYPE => STATE
+
+        if (updated_filter == Filter.COUNTRY) {
             updateAvailableProviderFilters(s[3]);
+            updateAvailableTypeFilters(s[1]);
+            updateAvailableStateFilters(s[2]);
+        } else if (updated_filter == Filter.PROVIDER) {
+            updateAvailableTypeFilters(s[1]);
+            updateAvailableStateFilters(s[2]);
+        } else if (updated_filter == Filter.TYPE) {
+            updateAvailableStateFilters(s[2]);
+        } else if (updated_filter == Filter.STATE) {
+
+        }
     }
 
     @FXML
