@@ -3,17 +3,13 @@ package com.ids.trustservicesurfer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 import org.json.JSONArray;
 
 import java.io.IOException;
-import java.util.EventObject;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -56,6 +52,8 @@ public class MainWindowController {
 
     private JSONArray complete_list_jarray;
 
+    private enum Filter {TYPE, COUNTRY, PROVIDER, STATE}
+    private Filter first_selection = null;
 
     // Init
     public void initialize() {
@@ -71,9 +69,8 @@ public class MainWindowController {
         // Countries Load
         countries = JsonProcess.countryExtractorJson(raw_json);
         countriesList.getItems().clear();
-        for (Country c : countries) {
-            countriesList.getItems().add(c);
-        }
+        for (Country country : countries)
+            countriesList.getItems().add(country);
 
         // Try to get a json containing the complete list of services into a JsonArray
         try {
@@ -86,8 +83,8 @@ public class MainWindowController {
         // Types Load
         serviceTypes = JsonProcess.serviceTypesExtractorJson(complete_list_jarray);
         typesList.getItems().clear();
-        for (ServiceType c : serviceTypes)
-            typesList.getItems().add(c);
+        for (ServiceType serviceType : serviceTypes)
+            typesList.getItems().add(serviceType);
 
         // Providers load
         serviceProviders = JsonProcess.serviceProvidersExtractorJson(complete_list_jarray);
@@ -108,6 +105,8 @@ public class MainWindowController {
             return;
         System.out.println("[+] New filter: " + countriesList.getSelectionModel().getSelectedItem());
         selectedCountriesList.getItems().add(countriesList.getSelectionModel().getSelectedItem());
+        if (first_selection == null)
+            first_selection = Filter.COUNTRY;
         this.updateAvailableFiltersOnChange();
     }
     @FXML
@@ -116,6 +115,8 @@ public class MainWindowController {
             return;
         System.out.println("[+] New filter: " + typesList.getSelectionModel().getSelectedItem());
         selectedTypesList.getItems().add(typesList.getSelectionModel().getSelectedItem());
+        if (first_selection == null)
+            first_selection = Filter.TYPE;
         this.updateAvailableFiltersOnChange();
     }
     @FXML
@@ -124,6 +125,8 @@ public class MainWindowController {
             return;
         System.out.println("[+] New filter: " + serviceProvidersList.getSelectionModel().getSelectedItem());
         selectedServiceProvidersList.getItems().add(serviceProvidersList.getSelectionModel().getSelectedItem());
+        if (first_selection == null)
+            first_selection = Filter.PROVIDER;
         this.updateAvailableFiltersOnChange();
     }
     @FXML
@@ -132,6 +135,8 @@ public class MainWindowController {
             return;
         System.out.println("[+] New filter: " + serviceStatesList.getSelectionModel().getSelectedItem());
         selectedServiceStatesList.getItems().add(serviceStatesList.getSelectionModel().getSelectedItem());
+        if (first_selection == null)
+            first_selection = Filter.STATE;
         this.updateAvailableFiltersOnChange();
     }
 
@@ -170,6 +175,31 @@ public class MainWindowController {
         this.updateAvailableFiltersOnChange();
     }
 
+    private void updateAvailableCountryFilters(String[] available_countries) {
+        selectedCountriesList.getItems().clear();
+        countriesList.getItems().clear();
+        countriesList.getItems().addAll(available_countries);
+    }
+
+    private void updateAvailableStateFilters(String[] available_states) {
+        selectedServiceStatesList.getItems().clear();
+        serviceStatesList.getItems().clear();
+        serviceStatesList.getItems().addAll(available_states);
+    }
+
+    private void updateAvailableProviderFilters(String[] available_providers) {
+        selectedServiceProvidersList.getItems().clear();
+        serviceProvidersList.getItems().clear();
+        serviceProvidersList.getItems().addAll(available_providers);
+    }
+
+    private void updateAvailableTypeFilters(String[] available_types) {
+        selectedTypesList.getItems().clear();
+        typesList.getItems().clear();
+        typesList.getItems().addAll(available_types);
+    }
+
+
     // FIXME
     private void updateAvailableFiltersOnChange() {
         String[] countryFilters,
@@ -194,10 +224,19 @@ public class MainWindowController {
         stateFilters = new String[selectedServiceStatesList.getItems().size()];
         for (int i = 0; i < selectedServiceStatesList.getItems().size(); i++)
             stateFilters[i] = selectedServiceStatesList.getItems().get(i).toString();
+
         String[][] s = JsonProcess.availableFilterExtractorJson(complete_list_jarray, countryFilters, typeFilters, stateFilters, providerFilters);
         System.out.println(s.length + " " + s[0].length + " " + s[1].length + " " + s[2].length + " " + s[3].length);
-    }
 
+        if (first_selection != Filter.COUNTRY)
+            updateAvailableCountryFilters(s[0]);
+        if (first_selection != Filter.TYPE)
+            updateAvailableTypeFilters(s[1]);
+        if (first_selection != Filter.STATE)
+            updateAvailableStateFilters(s[2]);
+        if (first_selection != Filter.PROVIDER)
+            updateAvailableProviderFilters(s[3]);
+    }
 
     @FXML
     public void handleCloseButtonAction(ActionEvent event) {
@@ -235,7 +274,7 @@ public class MainWindowController {
             for (int i = 0; i < selectedCountriesList.getItems().size(); i++)
                 countryFilters[i] = selectedCountriesList.getItems().get(i).toString();
             try {
-                countryFilters = extractCode(countryFilters);
+                extractCode(countryFilters);
             } catch(RuntimeException e) {
                 errorLauncher(e);
             }
