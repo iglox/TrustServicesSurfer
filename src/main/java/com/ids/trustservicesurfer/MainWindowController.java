@@ -115,7 +115,7 @@ public class MainWindowController {
 
     @FXML
     protected void onCountryFilterAdd() {
-        if (countriesList.getSelectionModel().getSelectedItem() == null || selectedCountriesList.getItems().contains(countriesList.getSelectionModel().getSelectedItem()))
+        if (countriesList.getSelectionModel().getSelectedItem() == null || selectedCountriesList.getItems().contains(countriesList.getSelectionModel().getSelectedItem().toString()))
             return;
         System.out.println("[+] New filter: " + countriesList.getSelectionModel().getSelectedItem());
         selectedCountriesList.getItems().add(countriesList.getSelectionModel().getSelectedItem());
@@ -123,7 +123,7 @@ public class MainWindowController {
     }
     @FXML
     protected void onTypeFilterAdd() {
-        if (serviceTypesList.getSelectionModel().getSelectedItem() == null || selectedTypesList.getItems().contains(serviceTypesList.getSelectionModel().getSelectedItem()))
+        if (serviceTypesList.getSelectionModel().getSelectedItem() == null || selectedTypesList.getItems().contains(serviceTypesList.getSelectionModel().getSelectedItem().toString()))
             return;
         System.out.println("[+] New filter: " + serviceTypesList.getSelectionModel().getSelectedItem());
         selectedTypesList.getItems().add(serviceTypesList.getSelectionModel().getSelectedItem());
@@ -133,7 +133,7 @@ public class MainWindowController {
     }
     @FXML
     protected void onServiceProviderFilterAdd() {
-        if (serviceProvidersList.getSelectionModel().getSelectedItem() == null || selectedServiceProvidersList.getItems().contains(serviceProvidersList.getSelectionModel().getSelectedItem()))
+        if (serviceProvidersList.getSelectionModel().getSelectedItem() == null || selectedServiceProvidersList.getItems().contains(serviceProvidersList.getSelectionModel().getSelectedItem().toString()))
             return;
         System.out.println("[+] New filter: " + serviceProvidersList.getSelectionModel().getSelectedItem());
         selectedServiceProvidersList.getItems().add(serviceProvidersList.getSelectionModel().getSelectedItem());
@@ -141,7 +141,7 @@ public class MainWindowController {
     }
     @FXML
     protected void onServiceStateFilterAdd() {
-        if (serviceStatesList.getSelectionModel().getSelectedItem() == null || selectedServiceStatesList.getItems().contains(serviceStatesList.getSelectionModel().getSelectedItem()))
+        if (serviceStatesList.getSelectionModel().getSelectedItem() == null || selectedServiceStatesList.getItems().contains(serviceStatesList.getSelectionModel().getSelectedItem().toString()))
             return;
         System.out.println("[+] New filter: " + serviceStatesList.getSelectionModel().getSelectedItem());
         selectedServiceStatesList.getItems().add(serviceStatesList.getSelectionModel().getSelectedItem());
@@ -181,6 +181,59 @@ public class MainWindowController {
         System.out.println("[-] Remove filter: " + selectedServiceStatesList.getSelectionModel().getSelectedItem());
         selectedServiceStatesList.getItems().remove(selectedServiceStatesList.getSelectionModel().getSelectedIndex());
         this.updateAvailableFiltersOnChange(Filter.STATE);
+    }
+
+
+    @FXML
+    protected void onAddAllCountries() {
+        selectedCountriesList.getItems().clear();
+        for(Country i : countries)
+            selectedCountriesList.getItems().add(i.toString());
+        this.updateAvailableFiltersOnChange(Filter.COUNTRY);
+    }
+    @FXML
+    protected void onRemoveAllCountries() {
+        selectedCountriesList.getItems().clear();
+        this.updateAvailableFiltersOnChange(Filter.COUNTRY);
+    }
+
+    @FXML
+    protected void onAddAllProviders() {
+        selectedServiceProvidersList.getItems().clear();
+        for(String i : serviceProviders)
+            selectedServiceProvidersList.getItems().add(i);
+        this.updateAvailableFiltersOnChange(Filter.PROVIDER);
+    }
+    @FXML
+    protected void onRemoveAllProviders() {
+        selectedServiceProvidersList.getItems().clear();
+        this.updateAvailableFiltersOnChange(Filter.PROVIDER);
+    }
+
+    @FXML
+    protected void onAddAllStates() {
+        selectedServiceStatesList.getItems().clear();
+        for(String i : serviceStates)
+            selectedServiceStatesList.getItems().add(i);
+        this.updateAvailableFiltersOnChange(Filter.STATE);
+    }
+    @FXML
+    protected void onRemoveAllStates() {
+        selectedServiceStatesList.getItems().clear();
+        this.updateAvailableFiltersOnChange(Filter.STATE);
+    }
+
+    @FXML
+    protected void onAddAllTypes() {
+        selectedTypesList.getItems().clear();
+        for(ServiceType i : serviceTypes)
+            selectedTypesList.getItems().add(i.toString());
+        this.updateAvailableFiltersOnChange(Filter.TYPE);
+    }
+    @FXML
+    protected void onRemoveAllTypes() {
+        selectedTypesList.getItems().clear();
+        this.updateAvailableFiltersOnChange(Filter.TYPE);
     }
 
     //TODO del
@@ -256,7 +309,7 @@ public class MainWindowController {
             updateAvailableStateFilters(s[2]);
             statesTab.setDisable(false);
         } else if (updated_filter == Filter.STATE) {
-
+            //TODO del
         }
     }
 
@@ -268,11 +321,17 @@ public class MainWindowController {
     @FXML
     public void handleResetAction(ActionEvent event) {
         System.out.println("[!] Resetting filters and results");
+        // Clear lists
         selectedServiceStatesList.getItems().clear();
         selectedTypesList.getItems().clear();
         selectedServiceProvidersList.getItems().clear();
         selectedCountriesList.getItems().clear();
         resultsList.getItems().clear();
+
+        // Disable tabs
+        providersTab.setDisable(true);
+        typesTab.setDisable(true);
+        statesTab.setDisable(true);
     }
 
     @FXML

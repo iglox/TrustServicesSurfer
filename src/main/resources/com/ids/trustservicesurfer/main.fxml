@@ -9,7 +9,6 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -40,14 +39,16 @@
                                 <rowConstraints>
                                     <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
                                   <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
                                     <Label prefHeight="16.0" prefWidth="259.0" text="Available country filters (click to add)" />
-                                    <Label prefHeight="16.0" prefWidth="258.0" text="Active country fitlers (click to remove)" GridPane.rowIndex="2" />
+                                    <Label prefHeight="16.0" prefWidth="258.0" text="Active country fitlers (click to remove)" GridPane.rowIndex="3" />
                                     <ListView fx:id="countriesList" onMouseClicked="#onCountryFilterAdd" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
-                                    <ListView fx:id="selectedCountriesList" onMouseClicked="#onCountryFilterRemove" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3" />
+                                    <ListView fx:id="selectedCountriesList" onMouseClicked="#onCountryFilterRemove" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="4" />
+                                    <Button mnemonicParsing="false" onAction="#onAddAllCountries" text="Add All" GridPane.rowIndex="2" />
                                  </children>
                               </GridPane>
                            </children>
@@ -66,13 +67,15 @@
                                     <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                     <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
                                     <Label text="Available service provider filters (click to add)" />
-                                    <Label text="Active service provider filters (click to remove)" GridPane.rowIndex="2" />
+                                    <Label text="Active service provider filters (click to remove)" GridPane.rowIndex="3" />
                                     <ListView fx:id="serviceProvidersList" onMouseClicked="#onServiceProviderFilterAdd" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
-                                    <ListView fx:id="selectedServiceProvidersList" onMouseClicked="#onServiceProviderFilterRemove" prefHeight="404.0" prefWidth="417.0" GridPane.rowIndex="3" />
+                                    <ListView fx:id="selectedServiceProvidersList" onMouseClicked="#onServiceProviderFilterRemove" prefHeight="404.0" prefWidth="417.0" GridPane.rowIndex="4" />
+                                    <Button mnemonicParsing="false" onAction="#onAddAllProviders" text="Add All" GridPane.rowIndex="2" />
                                  </children>
                               </GridPane>
                            </children>
@@ -91,13 +94,15 @@
                                     <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                     <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
                                     <Label text="Available service type filters (click to add)" />
-                                    <Label text="Active service type filters (click to remove)" GridPane.rowIndex="2" />
+                                    <Label text="Active service type filters (click to remove)" GridPane.rowIndex="3" />
                                     <ListView fx:id="serviceTypesList" onMouseClicked="#onTypeFilterAdd" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
-                                    <ListView fx:id="selectedTypesList" onMouseClicked="#onTypeFilterRemove" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3" />
+                                    <ListView fx:id="selectedTypesList" onMouseClicked="#onTypeFilterRemove" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="4" />
+                                    <Button mnemonicParsing="false" onAction="#onAddAllTypes" text="Add All" GridPane.rowIndex="2" />
                                  </children>
                               </GridPane>
                            </children>
@@ -116,13 +121,15 @@
                                     <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                     <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
                                     <Label text="Available service state filters (click to add)" />
-                                    <Label text="Active service state filters (click to remove)" GridPane.rowIndex="2" />
+                                    <Label text="Active service state filters (click to remove)" GridPane.rowIndex="3" />
                                     <ListView fx:id="serviceStatesList" onMouseClicked="#onServiceStateFilterAdd" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
-                                    <ListView fx:id="selectedServiceStatesList" onMouseClicked="#onServiceStateFilterRemove" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3" />
+                                    <ListView fx:id="selectedServiceStatesList" onMouseClicked="#onServiceStateFilterRemove" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="4" />
+                                    <Button mnemonicParsing="false" onAction="#onAddAllStates" text="Add All" GridPane.rowIndex="2" />
                                  </children>
                               </GridPane>
                            </children>
@@ -164,10 +171,9 @@
       </MenuBar>
    </top>
    <bottom>
-      <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <ButtonBar prefHeight="40.0" prefWidth="200.0">
         <buttons>
           <Button mnemonicParsing="false" onAction="#onSearchStart" text="Search" />
-            <ToggleButton mnemonicParsing="false" text="Auto search" />
         </buttons>
       </ButtonBar>
    </bottom>
