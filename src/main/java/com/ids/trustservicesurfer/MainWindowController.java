@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
+import org.json.JSONArray;
 
 import java.io.IOException;
 import java.util.EventObject;
@@ -22,23 +23,27 @@ public class MainWindowController {
     @FXML
     private ListView countriesList;
     @FXML
+    private ListView selectedCountriesList;
+
+    @FXML
     private ListView typesList;
+    @FXML
+    private ListView selectedTypesList;
+
     @FXML
     private ListView serviceProvidersList;
     @FXML
+    private ListView selectedServiceProvidersList;
+
+    @FXML
     private ListView serviceStatesList;
-    
+    @FXML
+    private ListView selectedServiceStatesList;
+
+
     @FXML
     private ListView resultsList;
 
-    @FXML
-    private ListView selectedCountriesList;
-    @FXML
-    private ListView selectedTypesList;
-    @FXML
-    private ListView selectedServiceProvidersList;
-    @FXML
-    private ListView selectedServiceStatesList;
     @FXML
     private MenuItem quitButton;
 
@@ -47,6 +52,9 @@ public class MainWindowController {
     private ServiceType[] serviceTypes;
     private String[] serviceProviders;
     private String[] serviceStates;
+
+
+    private JSONArray complete_list_jarray;
 
 
     // Init
@@ -67,28 +75,28 @@ public class MainWindowController {
             countriesList.getItems().add(c);
         }
 
-        // Try to get a json containing the complete list of services
+        // Try to get a json containing the complete list of services into a JsonArray
         try {
-            raw_json = connectionFactory.getCompleteServicesListJson();
+            complete_list_jarray = JsonProcess.loadJsonArray(connectionFactory.getCompleteServicesListJson());
         } catch (IOException e) {
             errorLauncher(e);
             return;
         }
 
         // Types Load
-        serviceTypes = JsonProcess.serviceTypesExtractorJson(raw_json);
+        serviceTypes = JsonProcess.serviceTypesExtractorJson(complete_list_jarray);
         typesList.getItems().clear();
         for (ServiceType c : serviceTypes)
             typesList.getItems().add(c);
 
         // Providers load
-        serviceProviders = JsonProcess.serviceProvidersExtractorJson(raw_json);
+        serviceProviders = JsonProcess.serviceProvidersExtractorJson(complete_list_jarray);
         serviceProvidersList.getItems().clear();
         for (String p : serviceProviders)
             serviceProvidersList.getItems().add(p);
 
         // States load
-        serviceStates = JsonProcess.serviceStatesExtractorJson(raw_json);
+        serviceStates = JsonProcess.serviceStatesExtractorJson(complete_list_jarray);
         serviceStatesList.getItems().clear();
         for (String p : serviceStates)
             serviceStatesList.getItems().add(p);
@@ -100,6 +108,7 @@ public class MainWindowController {
             return;
         System.out.println("[+] New filter: " + countriesList.getSelectionModel().getSelectedItem());
         selectedCountriesList.getItems().add(countriesList.getSelectionModel().getSelectedItem());
+        this.updateAvailableFiltersOnChange();
     }
     @FXML
     protected void onTypeFilterAdd() {
@@ -107,6 +116,7 @@ public class MainWindowController {
             return;
         System.out.println("[+] New filter: " + typesList.getSelectionModel().getSelectedItem());
         selectedTypesList.getItems().add(typesList.getSelectionModel().getSelectedItem());
+        this.updateAvailableFiltersOnChange();
     }
     @FXML
     protected void onServiceProviderFilterAdd() {
@@ -114,6 +124,7 @@ public class MainWindowController {
             return;
         System.out.println("[+] New filter: " + serviceProvidersList.getSelectionModel().getSelectedItem());
         selectedServiceProvidersList.getItems().add(serviceProvidersList.getSelectionModel().getSelectedItem());
+        this.updateAvailableFiltersOnChange();
     }
     @FXML
     protected void onServiceStateFilterAdd() {
@@ -121,6 +132,7 @@ public class MainWindowController {
             return;
         System.out.println("[+] New filter: " + serviceStatesList.getSelectionModel().getSelectedItem());
         selectedServiceStatesList.getItems().add(serviceStatesList.getSelectionModel().getSelectedItem());
+        this.updateAvailableFiltersOnChange();
     }
 
 
@@ -130,6 +142,7 @@ public class MainWindowController {
             return;
         System.out.println("[-] Remove filter: " + selectedCountriesList.getSelectionModel().getSelectedItem());
         selectedCountriesList.getItems().remove(selectedCountriesList.getSelectionModel().getSelectedIndex());
+        this.updateAvailableFiltersOnChange();
     }
 
     @FXML
@@ -138,6 +151,7 @@ public class MainWindowController {
             return;
         System.out.println("[-] Remove filter: " + selectedTypesList.getSelectionModel().getSelectedItem());
         selectedTypesList.getItems().remove(selectedTypesList.getSelectionModel().getSelectedIndex());
+        this.updateAvailableFiltersOnChange();
     }
     @FXML
     protected void onServiceProviderFilterRemove() {
@@ -145,6 +159,7 @@ public class MainWindowController {
             return;
         System.out.println("[-] Remove filter: " + selectedServiceProvidersList.getSelectionModel().getSelectedItem());
         selectedServiceProvidersList.getItems().remove(selectedServiceProvidersList.getSelectionModel().getSelectedIndex());
+        this.updateAvailableFiltersOnChange();
     }
     @FXML
     protected void onServiceStateFilterRemove() {
@@ -152,7 +167,37 @@ public class MainWindowController {
             return;
         System.out.println("[-] Remove filter: " + selectedServiceStatesList.getSelectionModel().getSelectedItem());
         selectedServiceStatesList.getItems().remove(selectedServiceStatesList.getSelectionModel().getSelectedIndex());
+        this.updateAvailableFiltersOnChange();
     }
+
+    // FIXME
+    private void updateAvailableFiltersOnChange() {
+        String[] countryFilters,
+                typeFilters,
+                providerFilters,
+                stateFilters;
+
+        // Copy country filters
+        countryFilters = new String[selectedCountriesList.getItems().size()];
+        for (int i = 0; i < selectedCountriesList.getItems().size(); i++)
+            countryFilters[i] = selectedCountriesList.getItems().get(i).toString();
+        try { countryFilters = extractCode(countryFilters); } catch(RuntimeException e) { errorLauncher(e); }
+        // Copy type filters
+        typeFilters = new String[selectedTypesList.getItems().size()];
+        for (int i = 0; i < selectedTypesList.getItems().size(); i++)
+            typeFilters[i] = selectedTypesList.getItems().get(i).toString();
+        // Copy provider filters
+        providerFilters = new String[selectedServiceProvidersList.getItems().size()];
+        for (int i = 0; i < selectedServiceProvidersList.getItems().size(); i++)
+            providerFilters[i] = selectedServiceProvidersList.getItems().get(i).toString();
+        // Copy state filters
+        stateFilters = new String[selectedServiceStatesList.getItems().size()];
+        for (int i = 0; i < selectedServiceStatesList.getItems().size(); i++)
+            stateFilters[i] = selectedServiceStatesList.getItems().get(i).toString();
+        String[][] s = JsonProcess.availableFilterExtractorJson(complete_list_jarray, countryFilters, typeFilters, stateFilters, providerFilters);
+        System.out.println(s.length + " " + s[0].length + " " + s[1].length + " " + s[2].length + " " + s[3].length);
+    }
+
 
     @FXML
     public void handleCloseButtonAction(ActionEvent event) {
@@ -214,23 +259,16 @@ public class MainWindowController {
                 providerFilters[i] = selectedServiceProvidersList.getItems().get(i).toString();
         }
         // Copy state filters
-        if (selectedServiceStatesList.getItems().size() == 0) {
-            stateFilters = new String[serviceStates.length - 1];
-            int i = 0;
-            for (String state : serviceStates) {
-                if (state.compareTo("deprecatedatnationallevel") != 0) {
-                    stateFilters[i] = state;
-                    i++;
-                }
-            }
-        } else {
+        //TODO update manual
+        if (selectedServiceStatesList.getItems().size() == 0)
+            stateFilters = serviceStates;
+        else {
             stateFilters = new String[selectedServiceStatesList.getItems().size()];
             for (int i = 0; i < selectedServiceStatesList.getItems().size(); i++)
                 stateFilters[i] = selectedServiceStatesList.getItems().get(i).toString();
         }
 
         searchHandler(countryFilters, typeFilters, providerFilters, stateFilters);
-        //resultsList.getItems().add("ERROR: parameters not found");
     }
 
     private void searchHandler(String[] _countries, String[] _types, String[] _providers, String[] _states) {
@@ -246,6 +284,18 @@ public class MainWindowController {
         for(String i:services) {
             resultsList.getItems().add(i);
         }
+        //TODO try to use complete_list_jarray
+        /*
+        if (complete_list_jarray == null) {
+            errorLauncher(new Exception("Something went wrong, check internet connection and restart"));
+            return;
+        }
+        String[] services = JsonProcess.serviceExtractorJson(complete_list_jarray, _providers, _states);
+        resultsList.getItems().clear();
+        for(String i:services) {
+            resultsList.getItems().add(i);
+        }
+         */
     }
 
     private void errorLauncher(Exception e) {
