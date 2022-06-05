@@ -274,21 +274,23 @@ public class MainWindowController {
         for (int i = 0; i < selectedCountriesList.getItems().size(); i++)
             countryFilters[i] = selectedCountriesList.getItems().get(i).toString();
         try { countryFilters = extractCode(countryFilters); } catch(RuntimeException e) { errorLauncher(e); }
+
         // Copy type filters
         typeFilters = new String[selectedTypesList.getItems().size()];
         for (int i = 0; i < selectedTypesList.getItems().size(); i++)
             typeFilters[i] = selectedTypesList.getItems().get(i).toString();
+
         // Copy provider filters
         providerFilters = new String[selectedServiceProvidersList.getItems().size()];
         for (int i = 0; i < selectedServiceProvidersList.getItems().size(); i++)
             providerFilters[i] = selectedServiceProvidersList.getItems().get(i).toString();
+
         // Copy state filters
         stateFilters = new String[selectedServiceStatesList.getItems().size()];
         for (int i = 0; i < selectedServiceStatesList.getItems().size(); i++)
             stateFilters[i] = selectedServiceStatesList.getItems().get(i).toString();
 
         String[][] s = JsonProcess.availableFilterExtractorJson(complete_list_j_array, countryFilters, typeFilters, stateFilters, providerFilters);
-        System.out.println(s.length + " " + s[0].length + " " + s[1].length + " " + s[2].length + " " + s[3].length);
 
         // COUNTRY => PROVIDER => TYPE => STATE
         if (updated_filter == Filter.COUNTRY) {
@@ -296,14 +298,14 @@ public class MainWindowController {
             updateAvailableTypeFilters(s[1]);
             updateAvailableStateFilters(s[2]);
             providersTab.setDisable(false);
-            // if It's not first run
+            // if It's not the first run
             typesTab.setDisable(true);
             statesTab.setDisable(true);
         } else if (updated_filter == Filter.PROVIDER) {
             updateAvailableTypeFilters(s[1]);
             updateAvailableStateFilters(s[2]);
             typesTab.setDisable(false);
-            // if It's not first run
+            // if It's not the first run
             statesTab.setDisable(true);
         } else if (updated_filter == Filter.TYPE) {
             updateAvailableStateFilters(s[2]);
