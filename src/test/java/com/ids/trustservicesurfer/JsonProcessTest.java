@@ -193,7 +193,7 @@ public class JsonProcessTest {
                 "        \"countryCode\": \"string\",\n" +
                 "        \"currentStatus\": \"STATE1\",\n" +
                 "        \"qServiceTypes\": [\n" +
-                "          \"string\"\n" +
+                "          \"TYPE1\"\n" +
                 "        ],\n" +
                 "        \"serviceId\": 0,\n" +
                 "        \"serviceName\": \"string\",\n" +
@@ -205,7 +205,8 @@ public class JsonProcessTest {
                 "        \"countryCode\": \"string\",\n" +
                 "        \"currentStatus\": \"STATE1\",\n" +
                 "        \"qServiceTypes\": [\n" +
-                "          \"string\"\n" +
+                "          \"TYPE1\",\n" +
+                "          \"TYPE2\"\n" +
                 "        ],\n" +
                 "        \"serviceId\": 0,\n" +
                 "        \"serviceName\": \"string\",\n" +
@@ -217,7 +218,7 @@ public class JsonProcessTest {
                 "        \"countryCode\": \"string\",\n" +
                 "        \"currentStatus\": \"STATE2\",\n" +
                 "        \"qServiceTypes\": [\n" +
-                "          \"string\"\n" +
+                "          \"TYPE1\"\n" +
                 "        ],\n" +
                 "        \"serviceId\": 0,\n" +
                 "        \"serviceName\": \"string\",\n" +
@@ -238,7 +239,7 @@ public class JsonProcessTest {
                 "    \"tspId\": 0\n" +
                 "  }\n" +
                 "]";
-        String[] results = JsonProcess.serviceExtractorJson(new JSONArray(test_str), new String[]{"PROVIDER1"}, new String[]{"STATE1"}),
+        String[] results = JsonProcess.serviceExtractorJson(new JSONArray(test_str), new String[]{"TYPE1"}, new String[]{"STATE1"}, new String[]{"PROVIDER1"}),
                 expected = new String[]{"SERVICE PROVIDER: PROVIDER1  ::  SERVICE ID: 0  ::  SERVICE NAME: string:: SERVICE STATUS: STATE1",
                         "SERVICE PROVIDER: PROVIDER1  ::  SERVICE ID: 0  ::  SERVICE NAME: string:: SERVICE STATUS: STATE1"};
         Arrays.sort(results);
@@ -246,16 +247,15 @@ public class JsonProcessTest {
         assertEquals("Not same length", expected.length, results.length);
         assertArrayEquals(expected, results);
         // search .2
-        results = JsonProcess.serviceExtractorJson(new JSONArray(test_str), new String[]{"PROVIDER1", "PROVIDER2"}, new String[]{"STATE1"});
+        results = JsonProcess.serviceExtractorJson(new JSONArray(test_str), new String[]{"TYPE1"}, new String[]{"STATE1"},new String[]{"PROVIDER1", "PROVIDER2"});
         assertEquals(2, results.length);
         // No results research
-        results = JsonProcess.serviceExtractorJson(new JSONArray(test_str), new String[]{"PROVIDER3"}, new String[]{"STATE1"});
+        results = JsonProcess.serviceExtractorJson(new JSONArray(test_str), new String[]{"TYPE2"}, new String[]{"STATE1"}, new String[]{"PROVIDER3"});
         assertEquals(0, results.length);
         // Empty string test
         test_str = "[]";
-        results = JsonProcess.serviceExtractorJson(new JSONArray(test_str), new String[]{"PROVIDER1"}, new String[]{"STATE1"});
+        results = JsonProcess.serviceExtractorJson(new JSONArray(test_str), new String[]{"TYPE2"}, new String[]{"STATE1"}, new String[]{"PROVIDER1"});
         assertEquals(0, results.length);
-
     }
 
 
