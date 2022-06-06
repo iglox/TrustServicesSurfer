@@ -165,7 +165,7 @@ public class JsonProcess {
         if (_providers.length == 0 || _states.length == 0)
             throw new IllegalArgumentException("One or more arg is null");
         ArrayList<String> services_tmp = new ArrayList<String>();
-        // TODO create Service OBJ ??
+
         for (int i = 0; i < j_array.length(); i++) {
             JSONObject tmp_obj = j_array.getJSONObject(i);
             // Check if provider matches

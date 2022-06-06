@@ -61,9 +61,7 @@ public class MainWindowController {
 
     private JSONArray complete_list_j_array;
 
-    //TODO delx2
     private enum Filter {TYPE, COUNTRY, PROVIDER, STATE}
-    private Filter first_selection = null;
 
     // Init
     public void initialize() {
@@ -127,8 +125,6 @@ public class MainWindowController {
             return;
         System.out.println("[+] New filter: " + serviceTypesList.getSelectionModel().getSelectedItem());
         selectedTypesList.getItems().add(serviceTypesList.getSelectionModel().getSelectedItem());
-        if (first_selection == null)
-            first_selection = Filter.TYPE;
         this.updateAvailableFiltersOnChange(Filter.TYPE);
     }
     @FXML
@@ -236,7 +232,6 @@ public class MainWindowController {
         this.updateAvailableFiltersOnChange(Filter.TYPE);
     }
 
-    //TODO del
     private void updateAvailableCountryFilters(String[] available_countries) {
         selectedCountriesList.getItems().clear();
         countriesList.getItems().clear();
@@ -262,7 +257,6 @@ public class MainWindowController {
     }
 
 
-    // FIXME
     private void updateAvailableFiltersOnChange(Filter updated_filter) {
         String[] countryFilters,
                 typeFilters,
@@ -273,7 +267,7 @@ public class MainWindowController {
         countryFilters = new String[selectedCountriesList.getItems().size()];
         for (int i = 0; i < selectedCountriesList.getItems().size(); i++)
             countryFilters[i] = selectedCountriesList.getItems().get(i).toString();
-        try { countryFilters = extractCode(countryFilters); } catch(RuntimeException e) { errorLauncher(e); }
+        try { extractCode(countryFilters); } catch(RuntimeException e) { errorLauncher(e); }
 
         // Copy type filters
         typeFilters = new String[selectedTypesList.getItems().size()];
@@ -310,8 +304,6 @@ public class MainWindowController {
         } else if (updated_filter == Filter.TYPE) {
             updateAvailableStateFilters(s[2]);
             statesTab.setDisable(false);
-        } else if (updated_filter == Filter.STATE) {
-            //TODO del
         }
     }
 
@@ -337,7 +329,7 @@ public class MainWindowController {
     }
 
     @FXML
-    protected void onSearchStart() throws IOException {
+    protected void onSearchStart() {
         resultsList.getItems().clear();
         String[] countryFilters,
                 typeFilters,
@@ -381,7 +373,6 @@ public class MainWindowController {
                 providerFilters[i] = selectedServiceProvidersList.getItems().get(i).toString();
         }
         // Copy state filters
-        //TODO update manual
         if (selectedServiceStatesList.getItems().size() == 0)
             stateFilters = serviceStates;
         else {
@@ -406,22 +397,9 @@ public class MainWindowController {
         for(String i:services) {
             resultsList.getItems().add(i);
         }
-        //TODO try to use complete_list_jarray
-        /*
-        if (complete_list_jarray == null) {
-            errorLauncher(new Exception("Something went wrong, check internet connection and restart"));
-            return;
-        }
-        String[] services = JsonProcess.serviceExtractorJson(complete_list_jarray, _providers, _states);
-        resultsList.getItems().clear();
-        for(String i:services) {
-            resultsList.getItems().add(i);
-        }
-         */
     }
 
     private void errorLauncher(Exception e) {
-        //resultsList.getItems().add(e);
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("error-window.fxml"));
@@ -433,7 +411,7 @@ public class MainWindowController {
             stage.setScene(scene);
             stage.show();
         } catch (IOException ee) {
-            System.out.println(ee.toString());
+            System.out.println(ee);
         }
     }
 
@@ -445,7 +423,7 @@ public class MainWindowController {
         for (int i = 0; i <  _countries.length; i++) {
             Matcher code_matcher = code_extractor.matcher(_countries[i]);
             if (code_matcher.find() && code_matcher.groupCount() >= 0)
-                _countries[i] =  code_matcher.group(0).toString();
+                _countries[i] =  code_matcher.group(0);
             else
                 throw new RuntimeException("[!] Something went wrong: no pattern found");
         }
