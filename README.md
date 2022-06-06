@@ -22,8 +22,8 @@ Fare clic su OK nella finestra Variabili d'ambiente per salvare le modifiche all
 
 
 Per i sistemi Linux, la soluzione varia a seconda della distribuzione:
-- [Maven](https://archlinux.org/packages/community/any/maven/). nel caso di Arch e derivate
-- [Maven](https://packages.debian.org/buster-backports/maven). nel caso di Debian e derivate
+- [Maven](https://archlinux.org/packages/community/any/maven/) nel caso di Arch e derivate
+- [Maven](https://packages.debian.org/buster-backports/maven) nel caso di Debian e derivate
 
 
 In generale si può seguire questa guida generale .
