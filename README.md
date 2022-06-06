@@ -29,8 +29,8 @@ Per i sistemi Linux, la soluzione varia a seconda della distribuzione:
 In generale si può seguire questa guida generale .
 
 Attraverso maven verranno scaricate delle librerie necessarie al corretto funzionamento del software:
-- org.openjfx: libreria usata per la parte grafica
-- org.json: libreria usata per una più semplice e sicura gestione dei documenti json (sono utilizzate le classi `JSONArray` e `JSONObject`)
+- [org.openjfx](https://mvnrepository.com/artifact/org.openjfx): libreria usata per la parte grafica
+- [org.json](https://mvnrepository.com/artifact/org.json/json): libreria usata per una più semplice e sicura gestione dei documenti json (sono utilizzate le classi `JSONArray` e `JSONObject`)
 
 ## Grafica e Struttura interna generale
 All' avvio dell'applicazione si potranno già visualizzare le liste dei paesi presenti. 
