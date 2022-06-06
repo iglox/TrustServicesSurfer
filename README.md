@@ -1,9 +1,10 @@
-#Trust Service Explorer
-##INSTALLAZIONE
+# Trust Service Explorer
+## INSTALLAZIONE
 Dopo aver clonato la repository del programma da github, vi sono due strade disponibile per la sua esecuzione:
 aprire il progetto con un comune ide, come progetto maven, e eseguirlo normalmente
 dopo aver navigato tramite linea di comando nella cartella contenente il programma scaricato, eseguire i due seguenti comandi;
 >$ mvn compile
+
 >$ mvn exec:java -Dexec.mainClass=com.ids.trustservicesurfer.SurfApplication
 
 E` importante aver scaricato maven dal seguente link: https://maven.apache.org/download.cgi. , questo ci permetterà di utilizzare il comando mvn da qualsiasi cartella del nostro dispositivo.
