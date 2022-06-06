@@ -19,6 +19,15 @@ Fare clic sul pulsante Nuovo nella finestra Modifica variabile d'ambiente
 Immettere %MAVEN_HOME%\bin nel nuovo campo. Fare clic su OK per salvare le modifiche alla variabile Path.
 Fare clic su OK nella finestra Variabili d'ambiente per salvare le modifiche alle variabili di sistema.
 
+
+
+Per i sistemi Linux, la soluzione varia a seconda della distribuzione:
+- [Maven](https://archlinux.org/packages/community/any/maven/). nel caso di Arch e derivate
+- [Maven](https://packages.debian.org/buster-backports/maven). nel caso di Debian e derivate
+
+
+In generale si può seguire questa guida generale .
+
 Attraverso maven verranno scaricate delle librerie necessarie al corretto funzionamento del software:
 - org.openjfx: libreria usata per la parte grafica
 - org.json: libreria usata per una più semplice e sicura gestione dei documenti json (sono utilizzate le classi `JSONArray` e `JSONObject`)
