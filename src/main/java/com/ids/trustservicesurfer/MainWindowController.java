@@ -77,7 +77,7 @@ public class MainWindowController {
             return;
         }
         // Countries Load
-        countries = JsonProcess.countryExtractorJson(raw_json);
+        countries = JsonProcess.countryExtractorJson(new JSONArray(raw_json));
         countriesList.getItems().clear();
         for (Country country : countries)
             countriesList.getItems().add(country);
