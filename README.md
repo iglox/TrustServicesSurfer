@@ -36,11 +36,11 @@ Si vogliono selezionare tutti servizi offerti in Austria, indipendentemente dal 
   Si vogliono selezionare tutti i servizi offerti dal provider “Poste Italiane” con stato “granted”. Per procedere basterà selezionare tutti i paesi dalla prima lista della prima tab (manualmente o utilizzando il bottone `Add all`), selezionare “Poste Italiane” tra i provider della seconda tab, selezionare tutti i tipi nella terza tab (manualmente o utilizzando il bottone `Add all`) e selezionare lo stato “granted” nella quarta tab.
 In generale vale la seguente “regola”: si selezionano i filtri voluti nelle corrispettive tab, aggiungendo tutti quelli intermedi tra la tab iniziale e quella contenente i filtri voluti.
   La lista dei filtri successivi alla prima (`Country`) viene aggiornata ai filtri realmente utili. Ad esempio, si ha interesse nel sezionare i servizi austriaci che offrono il servizio “NonRegulatory”: dopo aver selezionato “AT : Austria”  dalla prima lista e tutti i provider dalla seconda, “NonRegulatory” tuttavia non sarà presente nella terza lista, perché questo tipo di servizio non è offerto in Austria.
-  Cliccando su un elemento della lista superiore, l’evento viene gestito dalla funzione `onXXXFilterAdd` del Controller (dove XXX varia a seconda della lista da cui parte l’evento), analogamente per la lista inferiore `onXXXFilterRemove`. Ogni volta che un filtro viene inserito o rimosso, i filtri nelle liste successive vengono aggiornate attraverso `updateAvailableFiltersOnChange` del Controller;
+  Cliccando su un elemento della lista superiore, l’evento viene gestito dalla funzione `onXXXFilterAdd` del `MainWindowController` (dove XXX varia a seconda della lista da cui parte l’evento), analogamente per la lista inferiore `onXXXFilterRemove`. Ogni volta che un filtro viene inserito o rimosso, i filtri nelle liste successive vengono aggiornate attraverso `updateAvailableFiltersOnChange` del `MainWindowController`;
 
-- colonna destra: svolge il ruolo di mostrare la lista dei servizi in base ai filtri attivi. Dopo aver selezionati i vari filtri voluti, si può cliccare il bottone “Search” per far iniziare il processo di ricerca. Appariranno nella lista nella colonna di destra i servizi cercati.
+- colonna destra: svolge il ruolo di mostrare la lista dei servizi in base ai filtri attivi. Dopo aver selezionati i vari filtri voluti, si può cliccare il bottone `Search` per far iniziare il processo di ricerca. Appariranno nella lista nella colonna di destra i servizi cercati.
 
-Cliccando il bottone, l’evento viene gestito da onSearchStart del Controller.
+Cliccando il bottone, l’evento viene gestito da onSearchStart del `MainWindowController`.
 
 Nella barra del menu vi sono due ulteriori funzioni:
 - `Close`: permette di chiudere l’applicazione
