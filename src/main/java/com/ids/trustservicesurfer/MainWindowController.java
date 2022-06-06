@@ -116,7 +116,7 @@ public class MainWindowController {
         if (countriesList.getSelectionModel().getSelectedItem() == null || selectedCountriesList.getItems().contains(countriesList.getSelectionModel().getSelectedItem().toString()))
             return;
         System.out.println("[+] New filter: " + countriesList.getSelectionModel().getSelectedItem());
-        selectedCountriesList.getItems().add(countriesList.getSelectionModel().getSelectedItem());
+        selectedCountriesList.getItems().add(countriesList.getSelectionModel().getSelectedItem().toString());
         this.updateAvailableFiltersOnChange(Filter.COUNTRY);
     }
     @FXML
@@ -124,7 +124,7 @@ public class MainWindowController {
         if (serviceTypesList.getSelectionModel().getSelectedItem() == null || selectedTypesList.getItems().contains(serviceTypesList.getSelectionModel().getSelectedItem().toString()))
             return;
         System.out.println("[+] New filter: " + serviceTypesList.getSelectionModel().getSelectedItem());
-        selectedTypesList.getItems().add(serviceTypesList.getSelectionModel().getSelectedItem());
+        selectedTypesList.getItems().add(serviceTypesList.getSelectionModel().getSelectedItem().toString());
         this.updateAvailableFiltersOnChange(Filter.TYPE);
     }
     @FXML
@@ -132,7 +132,7 @@ public class MainWindowController {
         if (serviceProvidersList.getSelectionModel().getSelectedItem() == null || selectedServiceProvidersList.getItems().contains(serviceProvidersList.getSelectionModel().getSelectedItem().toString()))
             return;
         System.out.println("[+] New filter: " + serviceProvidersList.getSelectionModel().getSelectedItem());
-        selectedServiceProvidersList.getItems().add(serviceProvidersList.getSelectionModel().getSelectedItem());
+        selectedServiceProvidersList.getItems().add(serviceProvidersList.getSelectionModel().getSelectedItem().toString());
         this.updateAvailableFiltersOnChange(Filter.PROVIDER);
     }
     @FXML
@@ -140,7 +140,7 @@ public class MainWindowController {
         if (serviceStatesList.getSelectionModel().getSelectedItem() == null || selectedServiceStatesList.getItems().contains(serviceStatesList.getSelectionModel().getSelectedItem().toString()))
             return;
         System.out.println("[+] New filter: " + serviceStatesList.getSelectionModel().getSelectedItem());
-        selectedServiceStatesList.getItems().add(serviceStatesList.getSelectionModel().getSelectedItem());
+        selectedServiceStatesList.getItems().add(serviceStatesList.getSelectionModel().getSelectedItem().toString());
         this.updateAvailableFiltersOnChange(Filter.STATE);
     }
 

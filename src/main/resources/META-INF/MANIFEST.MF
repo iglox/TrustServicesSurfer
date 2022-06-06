@@ -1,3 +1,34 @@
 Manifest-Version: 1.0
 Main-Class: com.ids.trustservicesurfer.SurfApplication
+Class-Path: maven-model-3.8.5.jar commons-lang3-3.12.0.jar aether-spi-0.
+ 9.0.M2.jar junit-jupiter-api-5.8.2.jar aether-impl-0.9.0.M2.jar javafx-
+ controls-18.0.1.jar doxia-module-xhtml5-1.11.1.jar velocity-tools-2.0.j
+ ar plexus-sec-dispatcher-1.3.jar commons-collections-3.2.2.jar doxia-lo
+ gging-api-1.11.1.jar doxia-core-1.11.1.jar doxia-skin-model-1.11.1.jar 
+ asm-9.2.jar junit-platform-commons-1.8.2.jar org.eclipse.sisu.plexus-0.
+ 3.5.jar xz-1.8.jar commons-io-2.11.0.jar maven-reporting-api-3.1.0.jar 
+ plexus-velocity-1.2.jar commons-text-1.3.jar plexus-archiver-4.2.2.jar 
+ doxia-module-xhtml-1.11.1.jar javafx-base-18.0.1.jar apiguardian-api-1.
+ 1.2.jar maven-reporting-impl-3.1.0.jar doxia-decoration-model-1.11.1.ja
+ r commons-logging-1.2.jar maven-common-artifact-filters-3.2.0.jar javaf
+ x-base-18.0.1-linux.jar maven-settings-3.1.0.jar velocity-1.7.jar maven
+ -shared-utils-3.3.4.jar commons-beanutils-1.9.4.jar httpclient-4.5.13.j
+ ar junit-4.13.2.jar doxia-site-renderer-1.11.1.jar maven-dependency-plu
+ gin-3.3.0.jar httpcore-4.4.14.jar commons-chain-1.1.jar plexus-cipher-1
+ .4.jar slf4j-api-1.7.5.jar javafx-graphics-18.0.1.jar javafx-controls-1
+ 8.0.1-linux.jar maven-artifact-3.8.5.jar maven-model-builder-3.1.0.jar 
+ plexus-interpolation-1.16.jar maven-aether-provider-3.1.0.jar dom4j-1.1
+ .jar plexus-component-annotations-2.1.1.jar plexus-classworlds-2.6.0.ja
+ r commons-digester-1.8.jar maven-settings-builder-3.1.0.jar oro-2.0.8.j
+ ar maven-artifact-transfer-0.13.1.jar hamcrest-core-1.3.jar plexus-cont
+ ainer-default-2.1.0.jar org.eclipse.sisu.inject-0.3.5.jar plexus-io-3.2
+ .0.jar aether-api-0.9.0.M2.jar maven-dependency-analyzer-1.12.0.jar jav
+ afx-fxml-18.0.1-linux.jar aether-util-1.1.0.jar plexus-utils-3.4.1.jar 
+ json-20220320.jar snappy-0.4.jar commons-collections4-4.2.jar opentest4
+ j-1.2.0.jar javafx-graphics-18.0.1-linux.jar plexus-i18n-1.0-beta-10.ja
+ r javax.annotation-api-1.2.jar maven-core-3.1.0.jar maven-repository-me
+ tadata-3.1.0.jar commons-lang-2.4.jar doxia-sink-api-1.11.1.jar maven-d
+ ependency-tree-3.1.0.jar javafx-fxml-18.0.1.jar commons-codec-1.11.jar 
+ maven-plugin-api-3.8.5.jar google-collections-1.0.jar xbean-reflect-3.7
+ .jar commons-compress-1.20.jar
 
