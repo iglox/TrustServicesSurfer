@@ -26,7 +26,10 @@ Per i sistemi Linux, la soluzione varia a seconda della distribuzione:
 - [Maven](https://packages.debian.org/buster-backports/maven) nel caso di Debian e derivate
 
 
-In generale si può seguire questa guida generale .
+In generale si può seguire [questa guida](https://maven.apache.org/install.html) ufficiale.
+
+
+Per il corretto funzionamento del software è necessario avere `java JDK` almeno alla versione `16`.
 
 Attraverso maven verranno scaricate delle librerie necessarie al corretto funzionamento del software:
 - [org.openjfx](https://mvnrepository.com/artifact/org.openjfx): libreria usata per la parte grafica
