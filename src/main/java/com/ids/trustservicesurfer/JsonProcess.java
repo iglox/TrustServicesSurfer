@@ -159,20 +159,8 @@ public class JsonProcess {
                             available_providers.toArray(new String[0])};
     }
 
-    public static String[] serviceExtractorJson (String raw_json, String[] _providers, String[] _states) {
-        // Check input params
-        if (raw_json == null || raw_json.length() == 0)
-            throw new IllegalArgumentException("Json is null or empty");
-        if (_providers.length == 0 || _states.length == 0)
-            throw new IllegalArgumentException("One or more arg is null");
 
-        System.out.println("[!] Starting the search");
-        // Convert raw json => array of json obj
-        JSONArray j_array = new JSONArray(raw_json);
-        return serviceExtractorJson(j_array, _providers, _states);
-    }
-
-    public static String[] serviceExtractorJson (JSONArray j_array, String[] _providers, String[] _states) {
+    public static String[] serviceExtractorJson (JSONArray j_array, String[] _types, String[] _states, String[] _providers) {
         // Check input params
         if (_providers.length == 0 || _states.length == 0)
             throw new IllegalArgumentException("One or more arg is null");
@@ -186,16 +174,21 @@ public class JsonProcess {
                     // Check if state matches
                     for (String s : _states) {
                         // For each service provided by the matched service provider
-                        JSONArray tmp_obj_array = new JSONArray(tmp_obj.get("services").toString());
-                        for (int j = 0; j < tmp_obj_array.length(); j++) {
+                        JSONArray services_array = new JSONArray(tmp_obj.get("services").toString());
+                        for (int j = 0; j < services_array.length(); j++) {
                             // tmp save service`s status and extract the status (last part)
-                            String tmp_service_status = tmp_obj_array.getJSONObject(j).get("currentStatus").toString();
-                            String tmp_service_status_extracted = tmp_service_status.substring(tmp_service_status.lastIndexOf('/') + 1);
-                            if (tmp_service_status_extracted.compareTo(s) == 0) {
-                                // Found it, just add it to the array list building the string
-                                services_tmp.add("SERVICE PROVIDER: "+p+"  ::  SERVICE ID: "+tmp_obj_array.getJSONObject(j).get("serviceId").toString() + "  ::  " + "SERVICE NAME: " +
-                                         tmp_obj_array.getJSONObject(j).get("serviceName").toString() + "::" + " SERVICE STATUS: "+s
-                                );
+                            String service_status_j = services_array.getJSONObject(j).get("currentStatus").toString();
+                            String service_status_j_extracted = service_status_j.substring(service_status_j.lastIndexOf('/') + 1);
+                            if (service_status_j_extracted.compareTo(s) == 0) {
+                                // Found it, check if it offers the type needed and add it to the array list building the string
+                                JSONArray service_types_array = services_array.getJSONObject(j).getJSONArray("qServiceTypes");
+                                boolean found = false;
+                                for(int k = 0; k < service_types_array.length() && !found; k++)
+                                    if (Arrays.asList(_types).contains(service_types_array.getString(k))) {
+                                        services_tmp.add("SERVICE PROVIDER: " + p + "  ::  SERVICE ID: " + services_array.getJSONObject(j).get("serviceId").toString() + "  ::  " + "SERVICE NAME: " +
+                                                services_array.getJSONObject(j).get("serviceName").toString() + "::" + " SERVICE STATUS: " + s);
+                                        found = true;
+                                    }
                             }
                         }
                     }

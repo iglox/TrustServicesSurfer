@@ -401,7 +401,7 @@ public class MainWindowController {
             errorLauncher(e);
             return;
         }
-        String[] services = JsonProcess.serviceExtractorJson(raw_json, _providers, _states);
+        String[] services = JsonProcess.serviceExtractorJson(new JSONArray(raw_json), _types, _states, _providers);
         resultsList.getItems().clear();
         for(String i:services) {
             resultsList.getItems().add(i);
