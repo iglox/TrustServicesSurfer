@@ -7,7 +7,7 @@ dopo aver navigato tramite linea di comando nella cartella contenente il program
 
 >$ mvn exec:java -Dexec.mainClass=com.ids.trustservicesurfer.SurfApplication
 
-Nel caso di sistema Windowss, è importante aver scaricato maven dal seguente link: https://maven.apache.org/download.cgi , questo ci permetterà di poter eseguire correttamente il progetto maven.
+Nel caso di sistema Windows, è importante aver scaricato maven dal seguente link: https://maven.apache.org/download.cgi , questo ci permetterà di poter eseguire correttamente il progetto maven.
 Dopo aver scaricato il file compresso, lo dovremo estrarre in una cartella a nostro piacimento.
 Dopodichè dovremo aggiungere la variabili di sistema $MAVEN_HOME con la seguente procedura:
 Recarsi nella sezione variabili d’ambiente del proprio sistema.
