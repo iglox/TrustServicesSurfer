@@ -23,7 +23,7 @@ Attraverso maven verranno scaricate delle librerie necessarie al corretto funzio
 org.openjfx: libreria usata per la parte grafica
 org.json: libreria usata per una più semplice e sicura gestione dei documenti json (sono utilizzate le classi JSONArray e JSONObject)
 
-##STRUTTURA GRAFICA e INTERNA:
+## STRUTTURA GRAFICA e INTERNA:
 All' avvio dell'applicazione si potranno già visualizzare le liste dei paesi presenti.
 
 La lista dei country iniziale e quelle successive vengono gestite dalla classe JsonProcess, la quale possiede vari metodo per filtrare ed estrarre le informazioni volute dall’oggetto JSONArray, un oggetto contenente la rappresentazione in java di un documento json. Questi documenti sono ottenuti inviando delle apposite query alle API  del portale EU https://esignature.ec.europa.eu/efda/tl-browser attraverso la classe ConnectionFactory.
