@@ -42,7 +42,7 @@ public class ConnectionFactory {
     }
 
     public String getCompleteServicesListJson() throws IOException {
-        URL url = new URL("https://esignature.ec.europa.eu/efda/tl-browser/api/v1/search/tsp_list");
+        URL url = new URL(service_url);
         HttpURLConnection con = (HttpURLConnection)url.openConnection();
         con.setRequestMethod("GET");
         con.setRequestProperty("Content-Type", "application/json");
@@ -66,7 +66,7 @@ public class ConnectionFactory {
         if (_countries == null || _countries.length == 0 || _types == null || _types.length == 0)
             throw new IllegalArgumentException("One or more args is null or empty");
     	
-        URL url = new URL("https://esignature.ec.europa.eu/efda/tl-browser/api/v1/search/find_by_type");
+        URL url = new URL(type_url);
         
         HttpURLConnection con = (HttpURLConnection)url.openConnection();
         con.setRequestMethod("POST");
