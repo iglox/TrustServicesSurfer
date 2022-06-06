@@ -54,3 +54,13 @@ Cliccando il bottone, l’evento viene gestito da onSearchStart del `MainWindowC
 Nella barra del menu vi sono due ulteriori funzioni:
 - `Close`: permette di chiudere l’applicazione
 - `Reset`: permette di resettare tutti i filtri attivi ed i risultati
+
+
+
+
+Il software utilizza il design pattern `Model-View-Controller`:
+- Model: rappresenta la parte centrale della sua implementazione cioè l’implementazione della logica di business
+-View: rappresenta l’interfaccia tra l’utente e il model, implementata nell’interfaccia grafica di javafx
+- Controller: rappresenta la parte che si occupa di gestire gli input dell’utente per poter modificare le altre due parti e risiede nel controller della ui
+
+Per le connessioni e la fabbricazione dei vari json, viene usato il pattern `Factory`, in tal modo la creazione delle liste json viene delegata alla classe ConnectionFactory.
