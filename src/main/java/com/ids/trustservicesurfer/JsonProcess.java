@@ -30,15 +30,6 @@ public class JsonProcess {
         Arrays.sort(countries);
         return countries;
     }
-    public static Country[] countryExtractorJson(String raw_json) {
-        // Check input params
-        if (raw_json == null || raw_json.length() == 0)
-            throw new IllegalArgumentException("Json is null or empty");
-        // Convert raw json => array of json obj
-        JSONArray j_array = new JSONArray(raw_json);
-        return countryExtractorJson(j_array);
-    }
-
 
     public static ServiceType[] serviceTypesExtractorJson(JSONArray j_array) {
         // Prepare output tmp destination list
@@ -66,14 +57,6 @@ public class JsonProcess {
         return serviceTypes;
 
     }
-    public static ServiceType[] serviceTypesExtractorJson(String raw_json) {
-        // Check input params
-        if (raw_json == null || raw_json.length() == 0)
-            throw new IllegalArgumentException("Json is null or empty");
-        // Convert raw json => array of json obj
-        JSONArray j_array = new JSONArray(raw_json);
-        return serviceTypesExtractorJson(j_array);
-    }
 
     public static String[] serviceProvidersExtractorJson(JSONArray j_array) {
 
@@ -89,16 +72,7 @@ public class JsonProcess {
         Arrays.sort(providers);
         return providers;
     }
-    public static String[] serviceProvidersExtractorJson(String raw_json) {
-        // Check input params
-        if (raw_json == null || raw_json.length() == 0)
-            throw new IllegalArgumentException("Json is null or empty");
 
-        // Convert raw json => array of json obj
-        JSONArray j_array = new JSONArray(raw_json);
-
-        return serviceProvidersExtractorJson(j_array);
-    }
     public static String[] serviceStatesExtractorJson(JSONArray j_array) {
         // Prepare output tmp destination list
         ArrayList<String> tmp_states = new ArrayList<String>();
@@ -120,15 +94,6 @@ public class JsonProcess {
             states[i] = tmp_states.get(i).substring(tmp_states.get(i).lastIndexOf('/') + 1);
         return states;
     }
-    public static String[] serviceStatesExtractorJson(String raw_json) {
-        // Check input params
-        if (raw_json == null || raw_json.length() == 0)
-            throw new IllegalArgumentException("Json is null or empty");
-
-        // Convert raw json => array of json obj
-        JSONArray j_array = new JSONArray(raw_json);
-        return serviceStatesExtractorJson(j_array);
-    }
 
     public static String[][] availableFilterExtractorJson(JSONArray j_array, String[] _selected_countries, String[] _selected_type, String[] _selected_state, String[] _selected_providers) {
         List<String> selected_countries = Arrays.asList(_selected_countries),
@@ -147,11 +112,11 @@ public class JsonProcess {
             JSONObject tmp_obj = j_array.getJSONObject(i);
             // Providers
             if (!selected_providers.isEmpty())
-                if (!selected_providers.contains(tmp_obj.getString("name")))
+                if (!selected_providers.contains(tmp_obj.getString("name"))) // Check if provider`s name is correct
                     continue;
             // Countries
             if (!selected_countries.isEmpty())
-                if (!selected_countries.contains(tmp_obj.getString("countryCode")))
+                if (!selected_countries.contains(tmp_obj.getString("countryCode"))) // Check if countryCode is correct
                     continue;
 
             // Cycle inner array services
@@ -160,24 +125,29 @@ public class JsonProcess {
                 JSONObject inner_tmp_obj = tmp_sevices_list.getJSONObject(j);
                 // States
                 if (!selected_state.isEmpty())
-                    if (!selected_state.contains(inner_tmp_obj.getString("currentStatus").substring(inner_tmp_obj.getString("currentStatus").lastIndexOf('/') + 1)))
+                    if (!selected_state.contains(inner_tmp_obj.getString("currentStatus").substring(inner_tmp_obj.getString("currentStatus").lastIndexOf('/') + 1))) // Check if currentStatus is correct
                         continue;
                 JSONArray inner_tmp_obj_types = inner_tmp_obj.getJSONArray("qServiceTypes");
                 // Types
-                for (int k = 0; k < inner_tmp_obj_types.length(); k++) {
-                    if (!selected_type.isEmpty()) {
-                        if (selected_type.contains(inner_tmp_obj_types.getString(k))) {
-                            available_providers.add(tmp_obj.getString("name"));
-                            available_countries.add(tmp_obj.getString("countryCode"));
-                            available_state.add(inner_tmp_obj.getString("currentStatus").substring(inner_tmp_obj.getString("currentStatus").lastIndexOf('/') + 1));
-                            available_type.add(inner_tmp_obj_types.getString(k));
-                        }
-                    } else {
+                if (!selected_type.isEmpty()) {
+                    String[] tmp_types = new String[inner_tmp_obj_types.length()];
+                    boolean found = false;
+                    for (int k = 0; k < inner_tmp_obj_types.length(); k++) {
+                        if (selected_type.contains(inner_tmp_obj_types.getString(k))) found = true;
+                        tmp_types[k] = inner_tmp_obj_types.getString(k);
+                    }
+                    if (found) {
                         available_providers.add(tmp_obj.getString("name"));
                         available_countries.add(tmp_obj.getString("countryCode"));
                         available_state.add(inner_tmp_obj.getString("currentStatus").substring(inner_tmp_obj.getString("currentStatus").lastIndexOf('/') + 1));
-                        available_type.add(inner_tmp_obj_types.getString(k));
+                        available_type.addAll(Arrays.asList(tmp_types));
                     }
+                } else {
+                    for (int k = 0; k < inner_tmp_obj_types.length(); k++) // No serviceType selected => add all
+                        available_type.add(inner_tmp_obj_types.getString(k));
+                    available_providers.add(tmp_obj.getString("name"));
+                    available_countries.add(tmp_obj.getString("countryCode"));
+                    available_state.add(inner_tmp_obj.getString("currentStatus").substring(inner_tmp_obj.getString("currentStatus").lastIndexOf('/') + 1));
                 }
             }
         }
